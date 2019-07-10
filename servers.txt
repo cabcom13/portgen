@@ -1,0 +1,20 @@
+json-server db.json 
+
+               <vue-draggable-resizable 
+
+                :key="index"
+                :grid="[10,10]"
+                :w="item.width"
+                :h="item.height"
+                :x="item.x"
+                :y="item.y"
+                :prevent-deactivation="true"
+                @deactivated="onDeactivated"
+                @activated="onActivated"
+                @dragging="onDrag"
+                @resizing="onResize"
+                :parent="true">
+
+                
+                <p v-if="active">The component has been activated.</p>
+                </vue-draggable-resizable>

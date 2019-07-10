@@ -1,0 +1,64 @@
+{
+    "backgroundimages": [
+        { "id":0,"src": "/img/bg/no.png","filename":"no.png"},
+        { "id":1,"src": "/img/bg/flower.png","filename":"flower.png"},
+        { "id":2,"src": "/img/bg/flower1.png","filename":"flower1.png"}
+    ],
+    "elements": [
+      { "id": 0,
+        "page": {
+            "background":"#ffffff",
+            "backgroundimage":"flower1.png",
+            "backgroundOpacity":1
+        }, "childs": [{
+            "height":20,
+            "width":500,
+            "class":"text",
+            "resizable":true,
+            "text":"NEUER TEXT",
+            "y":0,
+            "x":0,
+            "active":false,
+            "style":{
+                "color": "#000000",
+                "font-size": "12px",
+                "letter-spacing":"0em",
+                "font-weight":400,
+                "font-style": "",
+                "text-decoration":"",
+                "text-align": "left"
+            }
+        }]
+      },
+      { "id": 1,
+        "page": {
+            "background":"#ffffff",
+            "backgroundimage":"flower.png",
+            "backgroundOpacity":".2"
+        }, "childs": [{
+            "height":80,
+            "width":500,
+            "class":"text",
+            "resizable":true,
+            "text":"NEUER TEXT",
+            "y":100,
+            "x":200,
+            "active":false,
+            "style":{
+                "color": "#000000",
+                "font-size": "16px",
+                "letter-spacing":"0em",
+                "font-weight":400,
+                "font-style": "",
+                "text-decoration":"",
+                "text-align": "left"
+            }
+        }]
+      }
+    ]
+   
+  }
+
+
+
+
