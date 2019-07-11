@@ -112,7 +112,6 @@ export default {
     [RELOADDATA](state, payload) {
         // state.rects = payload
         state.rects = []
-        console.log(payload.childs.length);
         for (let i = 0; i < payload.childs.length; i++) {
             state.rects.push(payload.childs[i])
         }

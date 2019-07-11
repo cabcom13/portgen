@@ -9,7 +9,7 @@
         "childs": [
             {
                 "width": 200,
-                "height": 150,
+                "height": 21,
                 "top": 170,
                 "left": 10,
                 "draggable": true,
@@ -18,14 +18,14 @@
                 "minh": 10,
                 "axis": "both",
                 "parentLim": true,
-                "snapToGrid": false,
+                "snapToGrid": true,
                 "aspectRatio": false,
                 "zIndex": 3,
           
                 "active": false,
                 "class":"text",
                 "text":"NEUER TEXT",
-                "active":false,
+               
                 "style":{
                     "backgroundcolor": "#EF9A9A",
                     "font-size": "12px",
@@ -47,14 +47,14 @@
                 "minh": 10,
                 "axis": "both",
                 "parentLim": true,
-                "snapToGrid": false,
+                "snapToGrid": true,
                 "aspectRatio": false,
                 "zIndex": 2,
              
                 "active": false,
                 "class":"text",
                 "text":"NEUER TEXT13",
-                "active":false,
+               
                 "style":{
                     "backgroundcolor": "#EF9A4A",
                     "font-size": "12px",

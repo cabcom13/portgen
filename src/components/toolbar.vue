@@ -34,6 +34,9 @@
     </v-list>
 
 {{color}}
+
+{{width}}
+{{height}}
 <v-tabs dark>
     <v-tab>
         Seite
