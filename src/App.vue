@@ -31,17 +31,22 @@
                 :parentLimitation="rect.parentLim"
                 :snapToGrid="rect.snapToGrid"
                 :aspectRatio="rect.aspectRatio"
+                :class="rect.class"
                 :z="rect.zIndex"
                 v-on:activated="activateEv(index)"
                 v-on:deactivated="deactivateEv(index)"
                 v-on:dragging="changePosition($event, index)"
                 v-on:resizing="changeSize($event, index)"
                 >
-                <div class="filler" :style="{backgroundColor:rect.color}"></div>
+                <div class="filler " :style="{backgroundColor:rect.style.backgroundcolor}">
+                  
+{{rect.text}}
+
+                </div>
                 </VueDragResize>
             </div>
         </v-flex>
-        <v-flex xs6 @mousedown.stop>
+        <v-flex xs6>
             <toolbar></toolbar>
         </v-flex>
       </v-layout>
@@ -53,14 +58,13 @@
 
 <script>
 
-import paper from './components/paper'
 import VueDragResize from 'vue-drag-resize';
-import toolbar from './components/toolbar/toolbar.vue';
+import toolbar from './components/toolbar';
 
 export default {
   name: 'App',
   components: {
-    paper,
+
     VueDragResize,
     toolbar
   },
@@ -70,16 +74,7 @@ export default {
           listHeight: 0
       }
   },
-  mounted() {
-      let listEl = document.getElementById('list');
-      this.listWidth = listEl.clientWidth;
-      this.listHeight = listEl.clientHeight;
 
-      window.addEventListener('resize', ()=>{
-          this.listWidth = listEl.clientWidth;
-          this.listHeight = listEl.clientHeight;
-      })
-  },
 
   computed: {
       rects() {

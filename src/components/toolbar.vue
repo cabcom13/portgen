@@ -33,7 +33,7 @@
     </v-list-group>
     </v-list>
 
-
+{{color}}
 <v-tabs dark>
     <v-tab>
         Seite
@@ -47,12 +47,7 @@
             <v-card>
                 <v-card-text>
                 
-                    <swatches 
-                        background-color="transparent"
-                        :colors="colors"
-                        show-fallback    
-                        inline
-                        v-model="elements.page.background" />
+ 
                 </v-card-text>
             </v-card>
             </v-expansion-panel-content>
@@ -93,6 +88,9 @@ require("vue-swatches/dist/vue-swatches.min.css");
 export default {
     components: { VueSelectImage, Swatches,  Loading },
     data: () => ({
+        dataImages:[],
+        isLoading: false,
+        initialSelected:[0],
         items: [
   
             {
@@ -116,8 +114,8 @@ export default {
             
           ]
     }),
-        async created() {
-        this.isLoading = true
+    async created() {
+       
         try{
             const res = await axios.get('http://localhost:3000/backgroundimages')
             this.dataImages = res.data
@@ -132,6 +130,9 @@ export default {
         window.removeEventListener('keydown', this.onkey)
     },
     computed: {
+        color(){
+            return this.activeRect === null ? '' : this.$store.state.rect.rects[this.activeRect].style.backgroundcolor
+        },
         activeRect() {
             return this.$store.getters['rect/getActive'];
         },
@@ -207,6 +208,17 @@ export default {
         }
     },
     methods: {
+        loadData:function(id){
+        this.isLoading = true
+           
+        return fetch("http://localhost:3000/elements/"+id)
+             .then(res => res.json())
+             .then(res =>(this.$store.dispatch('rect/reloaddata', res)))
+             .then(this.isLoading = false);
+        },
+        onSelectImage:function(index){
+            return this.elements.page.backgroundimage  = index.filename
+        },
         toggleYLock() {
             if (this.activeRect === null) {
                 return

@@ -21,7 +21,8 @@ import {
     CHANGE_MINH,
     CHANGE_MINW,
     CHANGE_TOP,
-    CHANGE_WIDTH
+    CHANGE_WIDTH,
+    RELOADDATA
 } from './mutation-types';
 
 export default {
@@ -107,5 +108,18 @@ export default {
 
     [CHANGE_MINW](state, payload) {
         state.rects[payload.id].minw = payload.minw;
+    },
+    [RELOADDATA](state, payload) {
+        // state.rects = payload
+        state.rects = []
+        console.log(payload.childs.length);
+        for (let i = 0; i < payload.childs.length; i++) {
+            state.rects.push(payload.childs[i])
+        }
+
+        
+        // 
+        console.log(payload);
     }
+
 };

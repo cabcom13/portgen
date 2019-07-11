@@ -6,29 +6,67 @@
     ],
     "elements": [
       { "id": 0,
-        "page": {
-            "background":"#ffffff",
-            "backgroundimage":"flower1.png",
-            "backgroundOpacity":1
-        }, "childs": [{
-            "height":20,
-            "width":500,
-            "class":"text",
-            "resizable":true,
-            "text":"NEUER TEXT",
-            "y":0,
-            "x":0,
-            "active":false,
-            "style":{
-                "color": "#000000",
-                "font-size": "12px",
-                "letter-spacing":"0em",
-                "font-weight":400,
-                "font-style": "",
-                "text-decoration":"",
-                "text-align": "left"
+        "childs": [
+            {
+                "width": 200,
+                "height": 150,
+                "top": 170,
+                "left": 10,
+                "draggable": true,
+                "resizable": true,
+                "minw": 10,
+                "minh": 10,
+                "axis": "both",
+                "parentLim": true,
+                "snapToGrid": false,
+                "aspectRatio": false,
+                "zIndex": 3,
+          
+                "active": false,
+                "class":"text",
+                "text":"NEUER TEXT",
+                "active":false,
+                "style":{
+                    "backgroundcolor": "#EF9A9A",
+                    "font-size": "12px",
+                    "letter-spacing":"0em",
+                    "font-weight":400,
+                    "font-style": "",
+                    "text-decoration":"",
+                    "text-align": "left"
+                }
+            },
+            {
+                "width": 300,
+                "height": 250,
+                "top": 370,
+                "left": 300,
+                "draggable": true,
+                "resizable": true,
+                "minw": 10,
+                "minh": 10,
+                "axis": "both",
+                "parentLim": true,
+                "snapToGrid": false,
+                "aspectRatio": false,
+                "zIndex": 2,
+             
+                "active": false,
+                "class":"text",
+                "text":"NEUER TEXT13",
+                "active":false,
+                "style":{
+                    "backgroundcolor": "#EF9A4A",
+                    "font-size": "12px",
+                    "letter-spacing":"0em",
+                    "font-weight":400,
+                    "font-style": "",
+                    "text-decoration":"",
+                    "text-align": "left"
+                }
             }
-        }]
+    
+    ]
       },
       { "id": 1,
         "page": {
