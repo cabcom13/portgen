@@ -1,7 +1,7 @@
 export default {
     getActive: state => {
-        for (let i = 0, l = state.rects.length; i < l; i++) {
-            let rect = state.rects[i];
+        for (let i = 0, l = state.rects.childs.length; i < l; i++) {
+            let rect = state.rects.childs[i];
 
             if (rect.active) {
                 return i;

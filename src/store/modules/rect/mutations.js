@@ -22,103 +22,113 @@ import {
     CHANGE_MINW,
     CHANGE_TOP,
     CHANGE_WIDTH,
-    RELOADDATA
+    RELOADDATA,
+    ADD_ELEMENT,
+    REMOVE_ELEMENT
 } from './mutation-types';
 
 export default {
     [ENABLE_ACTIVE](state, id) {
-        state.rects[id].active = true;
+        state.rects.childs[id].active = true;
     },
     [DISABLE_ACTIVE](state, id) {
-        state.rects[id].active = false;
+        state.rects.childs[id].active = false;
     },
 
     [ENABLE_ASPECT](state, id) {
-        state.rects[id].aspectRatio = true;
+        state.rects.childs[id].aspectRatio = true;
     },
     [DISABLE_ASPECT](state, id) {
-        state.rects[id].aspectRatio = false;
+        state.rects.childs[id].aspectRatio = false;
     },
 
     [ENABLE_DRAGGABLE](state, id) {
-        state.rects[id].draggable = true;
+        state.rects.childs[id].draggable = true;
     },
     [DISABLE_DRAGGABLE](state, id) {
-        state.rects[id].draggable = false;
+        state.rects.childs[id].draggable = false;
     },
 
     [ENABLE_RESIZABLE](state, id) {
-        state.rects[id].resizable = true;
+        state.rects.childs[id].resizable = true;
     },
     [DISABLE_RESIZABLE](state, id) {
-        state.rects[id].resizable = false;
+        state.rects.childs[id].resizable = false;
     },
 
     [ENABLE_SNAP_TO_GRID](state, id) {
-        state.rects[id].snapToGrid = true;
+        state.rects.childs[id].snapToGrid = true;
     },
     [DISABLE_SNAP_TO_GRID](state, id) {
-        state.rects[id].snapToGrid = false;
+        state.rects.childs[id].snapToGrid = false;
     },
 
     [ENABLE_BOTH_AXIS](state, id) {
-        state.rects[id].axis = 'both';
+        state.rects.childs[id].axis = 'both';
     },
     [ENABLE_NONE_AXIS](state, id) {
-        state.rects[id].axis = 'none';
+        state.rects.childs[id].axis = 'none';
     },
     [ENABLE_X_AXIS](state, id) {
-        state.rects[id].axis = 'x';
+        state.rects.childs[id].axis = 'x';
     },
     [ENABLE_Y_AXIS](state, id) {
-        state.rects[id].axis = 'y';
+        state.rects.childs[id].axis = 'y';
     },
 
     [ENABLE_PARENT_LIMITATION](state, id) {
-        state.rects[id].parentLim = true;
+        state.rects.childs[id].parentLim = true;
     },
     [DISABLE_PARENT_LIMITATION](state, id) {
-        state.rects[id].parentLim = false;
+        state.rects.childs[id].parentLim = false;
     },
 
     [CHANGE_ZINDEX](state, payload) {
-        state.rects[payload.id].zIndex = payload.zIndex;
+        state.rects.childs[payload.id].zIndex = payload.zIndex;
     },
 
     [CHANGE_HEIGHT](state, payload) {
-        state.rects[payload.id].height = payload.height;
+        state.rects.childs[payload.id].height = payload.height;
     },
 
     [CHANGE_WIDTH](state, payload) {
-        state.rects[payload.id].width = payload.width;
+        state.rects.childs[payload.id].width = payload.width;
     },
 
     [CHANGE_TOP](state, payload) {
-        state.rects[payload.id].top = payload.top;
+        state.rects.childs[payload.id].top = payload.top;
     },
 
     [CHANGE_LEFT](state, payload) {
-        state.rects[payload.id].left = payload.left;
+        state.rects.childs[payload.id].left = payload.left;
     },
 
     [CHANGE_MINH](state, payload) {
 
-        state.rects[payload.id].minh = payload.minh;
+        state.rects.childs[payload.id].minh = payload.minh;
     },
 
     [CHANGE_MINW](state, payload) {
-        state.rects[payload.id].minw = payload.minw;
+        state.rects.childs[payload.id].minw = payload.minw;
     },
     [RELOADDATA](state, payload) {
         // state.rects = payload
-        state.rects = []
+   
+        state.rects.page =payload.page
+        state.rects.childs = []
         for (let i = 0; i < payload.childs.length; i++) {
-            state.rects.push(payload.childs[i])
+            state.rects.childs.push(payload.childs[i])
         }
-
+    },
+    [ADD_ELEMENT](state, payload) {
+        state.rects.childs.push(payload.data)
         
-        // 
-        console.log(payload);
-    }
+    },
+    [REMOVE_ELEMENT](state, id) {
+   
+        state.rects.childs.splice(id, 1)
+    },
+    
+    
 
 };

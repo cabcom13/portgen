@@ -1,12 +1,17 @@
 import types, {CHANGE_ZINDEX} from './mutation-types';
 
 export default {
+    removeElement({commit}, {id}){
+        commit(types.REMOVE_ELEMENT, id);
+    },
+    addElement({commit}, payLoad){
+        commit(types.ADD_ELEMENT, payLoad);
+    },
     reloaddata({commit}, payLoad) {
-       
          commit(types.RELOADDATA, payLoad);
     },
     setActive({commit, state}, {id}) {
-        for (let i = 0, l = state.rects.length; i < l; i++) {
+        for (let i = 0, l = state.rects.childs.length; i < l; i++) {
             if (i === id) {
                 commit(types.ENABLE_ACTIVE, i);
                 continue;
@@ -20,7 +25,7 @@ export default {
     },
 
     toggleDraggable({commit, state}, {id}) {
-        if (!state.rects[id].draggable) {
+        if (!state.rects.childs[id].draggable) {
             commit(types.ENABLE_DRAGGABLE, id);
         } else {
             commit(types.DISABLE_DRAGGABLE, id);
@@ -28,7 +33,7 @@ export default {
     },
 
     toggleResizable({commit, state}, {id}) {
-        if (!state.rects[id].resizable) {
+        if (!state.rects.childs[id].resizable) {
             commit(types.ENABLE_RESIZABLE, id);
         } else {
             commit(types.DISABLE_RESIZABLE, id);
@@ -36,7 +41,7 @@ export default {
     },
 
     toggleParentLimitation({commit, state}, {id}) {
-        if (!state.rects[id].parentLim) {
+        if (!state.rects.childs[id].parentLim) {
             commit(types.ENABLE_PARENT_LIMITATION, id);
         } else {
             commit(types.DISABLE_PARENT_LIMITATION, id);
@@ -44,7 +49,7 @@ export default {
     },
 
     toggleSnapToGrid({commit, state}, {id}) {
-        if (!state.rects[id].snapToGrid) {
+        if (!state.rects.childs[id].snapToGrid) {
             commit(types.ENABLE_SNAP_TO_GRID, id);
         } else {
             commit(types.DISABLE_SNAP_TO_GRID, id);
@@ -75,7 +80,7 @@ export default {
     },
 
     changeXLock({commit, state}, {id}) {
-        switch (state.rects[id].axis) {
+        switch (state.rects.childs[id].axis) {
             case 'both':
                 commit(types.ENABLE_Y_AXIS, id);
                 break;
@@ -92,7 +97,7 @@ export default {
     },
 
     changeYLock({commit, state}, {id}) {
-        switch (state.rects[id].axis) {
+        switch (state.rects.childs[id].axis) {
             case 'both':
                 commit(types.ENABLE_X_AXIS, id);
                 break;
@@ -109,35 +114,35 @@ export default {
     },
 
     changeZToBottom({commit, state}, {id}) {
-        if (state.rects[id].zIndex === 1) {
+        if (state.rects.childs[id].zIndex === 1) {
             return
         }
 
         commit(types.CHANGE_ZINDEX, {id, zIndex: 1});
 
-        for (let i = 0, l = state.rects.length; i < l; i++) {
+        for (let i = 0, l = state.rects.childs.length; i < l; i++) {
             if (i !== id) {
-                if(state.rects[i].zIndex === state.rects.length){
+                if(state.rects.childs[i].zIndex === state.rects.childs.length){
                     continue
                 }
-                commit(types.CHANGE_ZINDEX, {id: i, zIndex: state.rects[i].zIndex + 1});
+                commit(types.CHANGE_ZINDEX, {id: i, zIndex: state.rects.childs[i].zIndex + 1});
             }
         }
     },
 
     changeZToTop({commit, state}, {id}) {
-        if (state.rects[id].zIndex === state.rects.length) {
+        if (state.rects.childs[id].zIndex === state.rects.childs.length) {
             return
         }
 
-        commit(types.CHANGE_ZINDEX, {id, zIndex: state.rects.length});
+        commit(types.CHANGE_ZINDEX, {id, zIndex: state.rects.childs.length});
 
-        for (let i = 0, l = state.rects.length; i < l; i++) {
+        for (let i = 0, l = state.rects.childs.length; i < l; i++) {
             if (i !== id) {
-                if(state.rects[i].zIndex === 1){
+                if(state.rects.childs[i].zIndex === 1){
                     continue
                 }
-                commit(types.CHANGE_ZINDEX, {id: i, zIndex: state.rects[i].zIndex - 1});
+                commit(types.CHANGE_ZINDEX, {id: i, zIndex: state.rects.childs[i].zIndex - 1});
             }
         }
     },

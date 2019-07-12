@@ -32,6 +32,10 @@ export const CHANGE_TOP = 'CHANGE_TOP';
 export const CHANGE_LEFT = 'CHANGE_LEFT';
 
 export const RELOADDATA = 'RELOADDATA';
+export const ADD_ELEMENT = 'ADD_ELEMENT';
+export const REMOVE_ELEMENT = 'REMOVE_ELEMENT'
+
+export const GET_PAGE_STYLE = 'GET_PAGE_STYLE'
 
 export default {
     ENABLE_ACTIVE,
@@ -57,5 +61,8 @@ export default {
     CHANGE_HEIGHT,
     CHANGE_TOP,
     CHANGE_LEFT,
-    RELOADDATA
+    RELOADDATA,
+    ADD_ELEMENT,
+    REMOVE_ELEMENT
+   
 }

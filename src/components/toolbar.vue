@@ -1,5 +1,5 @@
 <template>
-<div>
+<div  @mousedown.stop>
     <v-list>
     <v-list-group
         v-for="item in items"
@@ -32,9 +32,9 @@
             </v-list-tile>
     </v-list-group>
     </v-list>
-
+<v-btn ripple color="error" @click="removeElement(activeRect)" :disabled="activeRect == null ? true: false">Löschen</v-btn>
 {{color}}
-
+{{activeRect}}
 {{width}}
 {{height}}
 <v-tabs dark>
@@ -43,6 +43,9 @@
     </v-tab>
     <v-tab-item>
         <v-expansion-panel dark expand>
+
+
+
             <v-expansion-panel-content ripple true>
             <template v-slot:header>
                 <div>Hintergrundfarbe</div>
@@ -55,7 +58,7 @@
             </v-card>
             </v-expansion-panel-content>
 
-            <v-expansion-panel-content ripple>
+            <v-expansion-panel-content ripple true>
             <template v-slot:header>
                 <div>Hintergrundbild</div>
             </template>
@@ -133,71 +136,72 @@ export default {
         window.removeEventListener('keydown', this.onkey)
     },
     computed: {
+
         color(){
-            return this.activeRect === null ? '' : this.$store.state.rect.rects[this.activeRect].style.backgroundcolor
+            return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].style.backgroundcolor
         },
         activeRect() {
             return this.$store.getters['rect/getActive'];
         },
 
         width() {
-            return this.activeRect === null ? '' : this.$store.state.rect.rects[this.activeRect].width
+            return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].width
         },
 
         height() {
-            return this.activeRect === null ? '' : this.$store.state.rect.rects[this.activeRect].height
+            return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].height
         },
 
         top() {
-            return this.activeRect === null ? '' : this.$store.state.rect.rects[this.activeRect].top
+            return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].top
         },
 
         left() {
-            return this.activeRect === null ? '' : this.$store.state.rect.rects[this.activeRect].left
+            return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].left
         },
 
         minw() {
-            return this.activeRect === null ? '' : this.$store.state.rect.rects[this.activeRect].minw
+            return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].minw
         },
 
         minh() {
-            return this.activeRect === null ? '' : this.$store.state.rect.rects[this.activeRect].minh
+            return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].minh
         },
 
         aspectRatio() {
-            return this.activeRect === null ? false : this.$store.state.rect.rects[this.activeRect].aspectRatio;
+            return this.activeRect === null ? false : this.$store.state.rect.rects.childs[this.activeRect].aspectRatio;
         },
 
         parentLim() {
-            return this.activeRect === null ? false : this.$store.state.rect.rects[this.activeRect].parentLim;
+            return this.activeRect === null ? false : this.$store.state.rect.rects.childs[this.activeRect].parentLim;
         },
 
         draggable() {
-            return this.activeRect === null ? false : this.$store.state.rect.rects[this.activeRect].draggable;
+            return this.activeRect === null ? false : this.$store.state.rect.rects.childs[this.activeRect].draggable;
         },
 
         resizable() {
-            return this.activeRect === null ? false : this.$store.state.rect.rects[this.activeRect].resizable;
+            return this.activeRect === null ? false : this.$store.state.rect.rects.childs[this.activeRect].resizable;
         },
 
         snapToGrid() {
-            return this.activeRect === null ? false : this.$store.state.rect.rects[this.activeRect].snapToGrid;
+            return this.activeRect === null ? false : this.$store.state.rect.rects.childs[this.activeRect].snapToGrid;
         },
 
         topIsLocked() {
             if (this.activeRect === null) {
                 return false;
             }
-            return (this.$store.state.rect.rects[this.activeRect].axis === 'x' ||
-                this.$store.state.rect.rects[this.activeRect].axis === 'none')
+            return (this.$store.state.rect.rects.childs[this.activeRect].axis === 'x' ||
+                this.$store.state.rect.rects.childs[this.activeRect].axis === 'none')
         },
 
         leftIsLocked() {
             if (this.activeRect === null) {
                 return false;
             }
-            return (this.$store.state.rect.rects[this.activeRect].axis === 'y' ||
-                this.$store.state.rect.rects[this.activeRect].axis === 'none')
+            return (this.$store.state.rect.rects.childs[this.activeRect].axis === 'y' ||
+                this.$store.state.rect.rects.childs[this.activeRect].axis === 'none')
         },
 
         zIndex() {
@@ -205,19 +209,25 @@ export default {
                 return null;
             }
 
-            return this.$store.state.rect.rects[this.activeRect].zIndex === 1 ? 'isFirst' :
-                this.$store.state.rect.rects[this.activeRect].zIndex === this.$store.state.rect.rects.length ? 'isLast' : 'normal'
+            return this.$store.state.rect.rects.childs[this.activeRect].zIndex === 1 ? 'isFirst' :
+                this.$store.state.rect.rects.childs[this.activeRect].zIndex === this.$store.state.rect.rects.childs.length ? 'isLast' : 'normal'
 
         }
     },
     methods: {
+        removeElement:function(index){
+            if (this.activeRect === null) {
+                return
+            }
+            this.$store.dispatch('rect/removeElement', {id: this.activeRect});
+        },
         loadData:function(id){
-        this.isLoading = true
-           
-        return fetch("http://localhost:3000/elements/"+id)
-             .then(res => res.json())
-             .then(res =>(this.$store.dispatch('rect/reloaddata', res)))
-             .then(this.isLoading = false);
+            this.isLoading = true
+            
+            return fetch("http://localhost:3000/elements/"+id)
+                .then(res => res.json())
+                .then(res =>(this.$store.dispatch('rect/reloaddata', res)))
+                .then(this.isLoading = false);
         },
         onSelectImage:function(index){
             return this.elements.page.backgroundimage  = index.filename
@@ -241,7 +251,7 @@ export default {
             if (this.activeRect === null) {
                 return
             }
-            if (!this.$store.state.rect.rects[this.activeRect].aspectRatio) {
+            if (!this.$store.state.rect.rects.childs[this.activeRect].aspectRatio) {
                 this.$store.dispatch('rect/setAspect', {id: this.activeRect});
             } else {
                 this.$store.dispatch('rect/unsetAspect', {id: this.activeRect});
@@ -280,8 +290,8 @@ export default {
 
             if (minw <= 0) {
                 minw = 1;
-            } else if (minw > this.$store.state.rect.rects[this.activeRect].width) {
-                minw = this.$store.state.rect.rects[this.activeRect].width;
+            } else if (minw > this.$store.state.rect.rects.childs[this.activeRect].width) {
+                minw = this.$store.state.rect.rects.childs[this.activeRect].width;
             }
 
             ev.target.value = minw;
@@ -298,8 +308,8 @@ export default {
 
             if (minh <= 0) {
                 minh = 1;
-            } else if (minh > this.$store.state.rect.rects[this.activeRect].height) {
-                minh = this.$store.state.rect.rects[this.activeRect].height;
+            } else if (minh > this.$store.state.rect.rects.childs[this.activeRect].height) {
+                minh = this.$store.state.rect.rects.childs[this.activeRect].height;
             }
 
             ev.target.value = minh;
@@ -311,7 +321,7 @@ export default {
             let top = parseInt(ev.target.value);
 
             if (typeof top !== 'number' || isNaN(top)) {
-                top = this.$store.state.rect.rects[this.activeRect].top;
+                top = this.$store.state.rect.rects.childs[this.activeRect].top;
                 ev.target.value = top;
                 return
             }
@@ -323,7 +333,7 @@ export default {
             let left = parseInt(ev.target.value);
 
             if (typeof left !== 'number' || isNaN(left)) {
-                left = this.$store.state.rect.rects[this.activeRect].left;
+                left = this.$store.state.rect.rects.childs[this.activeRect].left;
                 ev.target.value = left;
             }
 
@@ -334,7 +344,7 @@ export default {
             let width = parseInt(ev.target.value);
 
             if (typeof width !== 'number' || isNaN(width)) {
-                width = this.$store.state.rect.rects[this.activeRect].width;
+                width = this.$store.state.rect.rects.childs[this.activeRect].width;
                 ev.target.value = width;
             }
 
@@ -345,7 +355,7 @@ export default {
             let height = parseInt(ev.target.value);
 
             if (typeof height !== 'number' || isNaN(height)) {
-                height = this.$store.state.rect.rects[this.activeRect].height;
+                height = this.$store.state.rect.rects.childs[this.activeRect].height;
                 ev.target.value = height;
             }
 
