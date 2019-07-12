@@ -17,26 +17,13 @@
  
             <v-btn block @click="addItem('text')" >Text</v-btn>
             <v-btn block @click="addItem('letterbox')" >Schreibfeld</v-btn>
-            <v-btn block @click="addItem('imagebox913')" >Bild</v-btn>
-            <v-btn block @click="addItem('imagebox139')" >Bild</v-btn>
+            <v-btn block @click="addItem('imagebox913')" >Bild 9x13</v-btn>
+            <v-btn block @click="addItem('imagebox139')" >Bild 13x9</v-btn>
           </v-card>
         </v-flex>
         <v-flex xs6 offset-xs1 align-self-center>
-         
-          <div class="a4" 
-            :style="{    
-              'background-color': page_background_color,
-              'opacity': 1
-            }">
-            
-            <div class="a4" 
-            :style="{    
-              'background':'transparent url(./img/bg/'+ page_background_image + ')',
-              'opacity': page_background_image_opacity
-            }"></div>
-   
-
-            {{page_background_image_opacity}}
+          
+         <div class="a4">
 
                 <VueDragResize v-for="(rect, index) in rects"
                 :key="index"
@@ -47,6 +34,7 @@
                 :parentW="listWidth"
                 :parentH="listHeight"
                 :axis="rect.axis"
+                :snapToGrid="true"
                 :gridX="20"
                 :gridY="20"
                 :isActive="rect.active"
@@ -55,7 +43,7 @@
                 :isDraggable="rect.draggable"
                 :isResizable="rect.resizable"
                 :parentLimitation="rect.parentLim"
-                :snapToGrid="true"
+                
                 :aspectRatio="rect.aspectRatio"
                 
                 :z="rect.zIndex"
@@ -67,9 +55,20 @@
                 <div :class="rect.class +' filler'" :style="rect.style"> 
                   {{rect.text}}
                 </div>
+
                 
                 </VueDragResize>
-
+                <div class="filler" 
+                  :style="{    
+                    'background-color': page_background_color,
+                    'opacity': 1
+                  }"></div>
+                  
+                  <div class="filler" 
+                  :style="{    
+                    'background':'transparent url(./img/bg/'+ page_background_image + ')',
+                    'opacity': page_background_image_opacity
+                  }"></div>
             </div>
         </v-flex>
         <v-flex xs4>
@@ -97,8 +96,7 @@ export default {
   },
   data(){
       return {
-          listWidth: 0,
-          listHeight: 0
+          
       }
   },
 
@@ -307,13 +305,15 @@ export default {
 .imagebox139{
   border:1px solid black;
 }
-    .filler {
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-        position: absolute;
-        cursor: pointer;
-    }
-
+.filler {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    position: absolute;
+    cursor: pointer;
+}
+.active::before{
+      outline: 2px dashed #ff0000!important;
+}
 
 </style>
