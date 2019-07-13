@@ -31,8 +31,6 @@
                 :h="rect.height"
                 :x="rect.left"
                 :y="rect.top"
-                :parentW="listWidth"
-                :parentH="listHeight"
                 :axis="rect.axis"
                 :snapToGrid="true"
                 :gridX="20"

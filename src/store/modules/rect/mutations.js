@@ -24,7 +24,9 @@ import {
     CHANGE_WIDTH,
     RELOADDATA,
     ADD_ELEMENT,
-    REMOVE_ELEMENT
+    REMOVE_ELEMENT,
+    CHANGE_PAGE_BACKGROUND_IMAGE,
+    CHANGE_FONTSIZE
 } from './mutation-types';
 
 export default {
@@ -128,7 +130,13 @@ export default {
    
         state.rects.childs.splice(id, 1)
     },
+    [CHANGE_PAGE_BACKGROUND_IMAGE](state, payload) {
+        state.rects.page.backgroundimage = payload.file
+        state.rects.page.backgroundimageID = payload.id
+    },
+    [CHANGE_FONTSIZE](state, payload) {
+   
+        state.rects.childs[payload.id].style['font-size'] = payload.fontsize
+    }, 
     
-    
-
 };

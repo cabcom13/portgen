@@ -37,15 +37,14 @@
 {{activeRect}}
 {{width}}
 {{height}}
+
+ <v-slider dark :readonly="activeRect == null ? true: false" v-model="fontsize"></v-slider>
 <v-tabs dark>
     <v-tab>
         Seite
     </v-tab>
     <v-tab-item>
         <v-expansion-panel dark expand>
-
-
-
             <v-expansion-panel-content ripple true>
             <template v-slot:header>
                 <div>Hintergrundfarbe</div>
@@ -66,7 +65,8 @@
                 <v-card-text>
                         <vue-select-image h="100" :dataImages="dataImages"
                             @onselectimage="onSelectImage"
-                            :selectedImages="initialSelected"
+                            :selectedImages="[background_image.id]"
+                            :isMultiple="false"
                             >
                         </vue-select-image>
                 </v-card-text>
@@ -95,8 +95,9 @@ export default {
     components: { VueSelectImage, Swatches,  Loading },
     data: () => ({
         dataImages:[],
+     
         isLoading: false,
-        initialSelected:[0],
+        initialSelected:[],
         items: [
   
             {
@@ -136,7 +137,20 @@ export default {
         window.removeEventListener('keydown', this.onkey)
     },
     computed: {
-
+        background_image(){
+            return {
+                id: this.$store.state.rect.rects.page.backgroundimageID,
+                filename:this.$store.state.rect.rects.page.backgroundimage
+            }
+        },
+        fontsize:{
+            get: function() {
+                return this.activeRect === null ? 0 : this.$store.state.rect.rects.childs[this.activeRect].style['font-size'].replace('px','')
+            },
+            set: function(newValue) {
+                this.$store.dispatch('rect/changeFontSize', {id: this.activeRect,"fontsize":newValue+'px'});
+            }
+         },
         color(){
             return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].style.backgroundcolor
         },
@@ -230,7 +244,9 @@ export default {
                 .then(this.isLoading = false);
         },
         onSelectImage:function(index){
-            return this.elements.page.backgroundimage  = index.filename
+           
+            this.$store.dispatch('rect/changePageBackgroundImage', {file: index.filename, id:index.id});
+            
         },
         toggleYLock() {
             if (this.activeRect === null) {

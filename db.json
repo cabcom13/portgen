@@ -8,6 +8,7 @@
       { "id": 0,
         "page":{
             "backgroundimage": "flower1.png",
+            "backgroundimageID":2,
             "backgroundcolor": "#f2ffe8",
             "opacity": ".7"
         },

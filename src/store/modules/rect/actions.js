@@ -10,6 +10,12 @@ export default {
     reloaddata({commit}, payLoad) {
          commit(types.RELOADDATA, payLoad);
     },
+    changePageBackgroundImage({commit}, payLoad){
+        commit(types.CHANGE_PAGE_BACKGROUND_IMAGE, payLoad);
+    },
+    changeFontSize({commit}, payLoad){
+        commit(types.CHANGE_FONTSIZE, payLoad);
+    },
     setActive({commit, state}, {id}) {
         for (let i = 0, l = state.rects.childs.length; i < l; i++) {
             if (i === id) {

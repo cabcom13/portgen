@@ -2,6 +2,7 @@ export default {
     'rects': {
          "id": 0,
         "page":{
+            "backgroundimageID":2,
             "backgroundimage": "flower1.png"
         },
         "childs": [
