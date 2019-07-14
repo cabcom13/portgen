@@ -519,8 +519,7 @@ export default {
             if (this.activeRect === null) {
                 return
             }
-          
-            
+
             this.$store.dispatch('rect/changeFont', {id: this.activeRect, font:e.family});
             
         },
