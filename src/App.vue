@@ -1,12 +1,14 @@
 <template>
-  <v-app dark="">
-    <v-toolbar app>
+  <v-app dark="" class="pt-3">
+    <v-toolbar app dense fixed style="z-index:999">
       <v-toolbar-title class="headline text-uppercase">
         <span>Vuetify</span>
         <span class="font-weight-light">MATERIAL DESIGN</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn flat @click="download">.pdf Download</v-btn>
+      </v-toolbar-items>
     </v-toolbar>
   <v-container>
     
@@ -21,9 +23,32 @@
             <v-btn block @click="addItem('imagebox139')" >Bild 13x9</v-btn>
           </v-card>
         </v-flex>
-        <v-flex xs6 offset-xs1 align-self-center>
-          
-         <div class="a4">
+        <v-flex xs6 offset-xs1 align-self-center style="position:relative">
+<div id="page">
+       <div id="ignoreElements">
+            <v-btn
+              absolute
+              dark
+              fab
+              top
+              right
+              color="pink"
+            >
+              <v-icon>add</v-icon>
+            </v-btn>
+        </div>
+         <div class="a4"  :style="{    
+                    'background-color': page_background_color,
+                    'opacity': 1
+                  }">
+ 
+                  <div class="filler" 
+                  :style="{   
+                    'background-position': '0 0 ',
+                    'background-repeat': 'no-repeat',
+                    'background':'transparent url(./img/bg/'+ page_background_image + ')',
+                    'opacity': page_background_image_opacity
+                  }"></div>
 
                 <VueDragResize v-for="(rect, index) in rects"
                 :key="index"
@@ -56,27 +81,26 @@
 
                 
                 </VueDragResize>
-                <div class="filler" 
-                  :style="{    
-                    'background-color': page_background_color,
-                    'opacity': 1
-                  }"></div>
-                  
-                  <div class="filler" 
-                  :style="{    
-                    'background':'transparent url(./img/bg/'+ page_background_image + ')',
-                    'opacity': page_background_image_opacity
-                  }"></div>
+ 
+                  <div class="copyright">Portfolio Vorlagen </div>
             </div>
+          </div>
         </v-flex>
         <v-flex xs4>
   
             <toolbar></toolbar>
         </v-flex>
       </v-layout>
-
+    
     </v-content>
   </v-container>
+  <div id="pdf"></div>
+
+    <loading :active.sync="isLoading" loader="dots"></loading>
+    
+   
+   
+
   </v-app>
 </template>
 
@@ -84,17 +108,21 @@
 
 import VueDragResize from 'vue-drag-resize';
 import toolbar from './components/toolbar';
+import html2canvas from 'html2canvas'
+import * as JsPDF from 'jspdf'
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   name: 'App',
   components: {
-
+    Loading,
     VueDragResize,
     toolbar
   },
   data(){
       return {
-          
+          isLoading: false
       }
   },
 
@@ -115,6 +143,40 @@ export default {
   },
 
   methods: {
+      async download () {
+          this.isLoading = true
+           await html2canvas(document.querySelector('#page'), {
+            imageTimeout: 5000,
+            useCORS: true,
+            scale:2,
+            allowTaint:true,
+            scrollX:0,
+            scrollY:0,
+            foreignObjectRendering:false,
+            backgroundColor:'#ffffff'
+          }).then(canvas => {
+            document.getElementById('pdf').innerHTML = ''
+            document.getElementById('pdf').appendChild(canvas)
+
+           let pdf = new JsPDF({
+                        orientation: 'p',
+                        unit: 'mm',
+                        format: 'a4',
+                        putOnlyUsedFonts:true
+                      })
+
+            let img = canvas.toDataURL('image/png')
+            const imgProps= pdf.getImageProperties(img);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+ 
+            pdf.addImage(img, 'PNG', -2, 0, pdfWidth, pdfHeight)
+            pdf.save('relatorio-remoto.pdf')
+            document.getElementById('pdf').innerHTML = ''
+            this.isLoading = false
+          })
+      },
+
       activateEv(index) {
           this.$store.dispatch('rect/setActive', {id: index});
       },
@@ -287,12 +349,29 @@ export default {
 }
 </script>
 <style>
+#page{
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  position: static;
+}
 .a4{
     background:white;
     width:210mm;
     height:297mm;
     position: relative;
-   
+    margin:0;
+    padding:0;
+    overflow: hidden;
+}
+.copyright{
+  position: absolute;
+  bottom:0;
+  width:100%;
+  color:rgba(21,21,21,.8);
+  text-align: right;
+  padding:.3rem .5rem;
+  font-size:.8rem;
 }
 .letterbox{
   background:transparent url('img/box.png') repeat 0 0;
@@ -306,9 +385,12 @@ export default {
 .filler {
     width: 100%;
     height: 100%;
+    margin:0;
+    padding:0;
     display: inline-block;
     position: absolute;
     cursor: pointer;
+    overflow: hidden;
 }
 .active::before{
       outline: 2px dashed #ff0000!important;

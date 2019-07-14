@@ -30,7 +30,9 @@ import {
     CHANGE_BACKGROUNDCOLOR,
     CHANGE_BACKGROUNDOPACITY,
     CHANGE_FONTCOLOR,
-    CHANGE_FONTALIGN
+    CHANGE_FONTALIGN,
+    CHANGE_FONTWEIGHT,
+    CHANGE_TEXT
 } from './mutation-types';
 
 export default {
@@ -142,7 +144,6 @@ export default {
         state.rects.page.backgroundcolor = payload
     }, 
     [CHANGE_BACKGROUNDOPACITY](state, payload) {
-        console.log(payload)
         state.rects.page.opacity = payload
     }, 
     [CHANGE_FONTSIZE](state, payload) {
@@ -153,7 +154,13 @@ export default {
     }, 
     [CHANGE_FONTALIGN](state, payload) {
         state.rects.childs[payload.id].style['text-align'] = payload.textalign
-   }, 
-    
-    
+    }, 
+    [CHANGE_FONTWEIGHT ](state, payload) {
+        state.rects.childs[payload.id].style['font-weight'] = payload.fontweight
+    },
+    [CHANGE_TEXT](state, payload) {
+        state.rects.childs[payload.id].text = payload.text
+    },
+
+      
 };

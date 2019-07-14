@@ -42,41 +42,48 @@
             <v-card>
                 <v-card-text>
                    
- <v-layout row wrap>
-    <v-flex xs12 sm4 class="py-2">
-        <v-btn-toggle v-model="textalign" dark>
-            <v-btn flat :disabled="activeRect == null ? true: false">
-            <v-icon>format_align_left</v-icon>
-            </v-btn>
-            <v-btn flat :disabled="activeRect == null ? true: false">
-            <v-icon>format_align_center</v-icon>
-            </v-btn>
-            <v-btn flat :disabled="activeRect == null ? true: false">
-            <v-icon>format_align_right</v-icon>
-            </v-btn>
-            <v-btn flat :disabled="activeRect == null ? true: false">
-            <v-icon>format_align_justify</v-icon>
-            </v-btn>
-        </v-btn-toggle>
-    </v-flex>
-   
-   <v-flex xs12 sm4 class="py-2">
-   
-        <v-btn-toggle v-model="fontweight" dark>
-            <v-btn flat>
-            <v-icon>format_bold</v-icon>
-            </v-btn>
-
-        </v-btn-toggle>
-        </v-flex>
-</v-layout>    
+ 
 
                     <!-- <v-text-field :disabled="activeRect == null ? true: false" label="Höhe" placeholder="" v-model="height" dark></v-text-field> -->
                     <!-- <v-text-field :disabled="activeRect == null ? true: false" label="Breite" placeholder="" v-model="width" dark></v-text-field> -->
-                
-                   <div style="border-bottom:1px solid black;" class="mb-3">
+                    <div style="border-bottom:1px solid black;" class="mb-3">
+                        <strong class="grey--text text--lighten-1">Schrift Style</strong>
+                        <v-layout row wrap>
+                            <v-flex xs12 sm4 class="py-2">
+                                <v-btn-toggle v-model="textalign" dark>
+                                    <v-btn flat :disabled="activeRect == null ? true: false">
+                                    <v-icon>format_align_left</v-icon>
+                                    </v-btn>
+                                    <v-btn flat :disabled="activeRect == null ? true: false">
+                                    <v-icon>format_align_center</v-icon>
+                                    </v-btn>
+                                    <v-btn flat :disabled="activeRect == null ? true: false">
+                                    <v-icon>format_align_right</v-icon>
+                                    </v-btn>
+                                    <v-btn flat :disabled="activeRect == null ? true: false">
+                                    <v-icon>format_align_justify</v-icon>
+                                    </v-btn>
+                                </v-btn-toggle>
+                            </v-flex>
+                        
+                        <v-flex xs12 sm4 class="py-2">
+                        
+                                <v-btn-toggle v-model="fontweight" dark>
+                                    <v-btn flat>
+                                    <v-icon>format_bold</v-icon>
+                                    </v-btn>
+
+                                </v-btn-toggle>
+                                </v-flex>
+                        </v-layout>    
+                    </div>
+                    <div style="border-bottom:1px solid black;" class="mb-3">
+                        <strong class="grey--text text--lighten-1">Text</strong>
+                        <v-text-field :disabled="activeRect == null ? true: false" v-model="text" dark></v-text-field>
+                    </div>
+
+                    <div style="border-bottom:1px solid black;" class="mb-3">
                         <strong class="grey--text text--lighten-1">Schriftfarbe</strong>
-                        {{color}}
                         <swatches :colors="owncolors" v-model="color" shapes="circles" inline background-color="transparent"></swatches>
                     </div>
                     <div style="border-bottom:1px solid black;" class="mb-3">
@@ -234,7 +241,12 @@ export default {
                 
             },
             set: function(newValue) {
-                // this.$store.dispatch('rect/changeFontSize', {id: this.activeRect,"fontsize":newValue+'px'});
+                if(newValue === 0){
+                    this.$store.dispatch('rect/changeFontWeight', {id: this.activeRect,"fontweight":800});
+                } else {
+                    this.$store.dispatch('rect/changeFontWeight', {id: this.activeRect,"fontweight":400});
+                }
+                 
             }
         },
         textalign:{
@@ -275,12 +287,21 @@ export default {
             }
             
         },
+        text:{
+            get: function() {
+                return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].text
+            },
+            set: function(newValue) {
+                 this.$store.dispatch('rect/changeText', {id: this.activeRect,"text":newValue});
+            }
+            
+        },
+
         color:{
             get: function() {
                 return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].style.color
             },
             set: function(newValue) {
-                
                 this.$store.dispatch('rect/changeFontColor', {id: this.activeRect,"color":newValue});
             }
             

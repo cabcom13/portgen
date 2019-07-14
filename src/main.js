@@ -4,7 +4,6 @@ import App from './App.vue'
 import VueDragResize from 'vue-drag-resize'
 import store from './store';
 
-
 Vue.config.productionTip = false
 Vue.component('vue-drag-resize', VueDragResize)
 
