@@ -213,7 +213,7 @@
           </v-toolbar-items>
         </v-toolbar>
         <v-card-text>
-            <vue-select-image :dataImages="dataImages" :h="150" @onselectimage="onSelectImage"></vue-select-image>
+            <vue-select-image :dataImages="clipartImages" h="150" @onselectimage="onSelectImage"></vue-select-image>
         </v-card-text>
         
                         
@@ -245,10 +245,11 @@ require("vue-swatches/dist/vue-swatches.min.css");
 require("vue-swatches/dist/vue-swatches.min.css");
 
 export default {
-    components: { VueSelectImage, Swatches,  Loading, Swatches, FontPicker},
+    components: { VueSelectImage, Swatches,  Loading},
     data: () => ({
         fontfamilys:['Amatic SC', 'Satisfy', 'Permanent Marker', 'Architects Daughter', 'Handlee'],
         dataImages:[],
+        clipartImages:[],
         dialog: true,
         owncolors:[
             'transparent','#000000','#1FBC9C','#1CA085','#2ECC70','#27AF60','#3398DB','#2980B9','#A463BF','#8E43AD','#3D556E','#222F3D','#F2C511','#F39C19','#E84B3C','#C0382B','#DDE6E8','#BDC3C8','#FFFFFF'
@@ -285,8 +286,17 @@ export default {
             this.dataImages = res.data
             this.isLoading = false
         } catch(e){
-                console.error(e)
+               
         }
+        try{
+            const res = await axios.get('http://localhost:3000/clipartimages')
+            this.clipartImages = res.data
+            this.isLoading = false
+        } catch(e){
+                
+        }
+
+
         window.addEventListener('keydown', this.onkey)
  
     },
@@ -361,7 +371,7 @@ export default {
                     return this.$store.state.rect.rects.childs[this.activeRect].style['font-family']
                 }
             },set: function(newValue) {
-                console.log(newValue)
+               
             }
         },
         textalign:{
@@ -509,7 +519,7 @@ export default {
             if (this.activeRect === null) {
                 return
             }
-            console.log(e)
+          
             
             this.$store.dispatch('rect/changeFont', {id: this.activeRect, font:e.family});
             

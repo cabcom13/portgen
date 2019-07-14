@@ -34,7 +34,7 @@ export default {
                     "color" :"#000000",
                     "letter-spacing":"0em",
                     "font-weight":400,
-                    "font-weight": "italic",
+                    
                     "text-decoration":"",
                     "text-align": "left"
                 }
@@ -64,7 +64,7 @@ export default {
                     "font-size": "12px",
                     "letter-spacing":"0em",
                     "font-weight":400,
-                    "font-weight": "400",
+              
                     "text-decoration":"",
                     "text-align": "left"
                 }

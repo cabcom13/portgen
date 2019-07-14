@@ -1,8 +1,12 @@
 {
+    "clipartimages": [
+        { "id":0,"src": "/img/cliparts/1.jpg","filename":"1.jpg"}
+    ],
     "backgroundimages": [
         { "id":0,"src": "/img/bg/no.png","filename":"no.png"},
         { "id":1,"src": "/img/bg/flower.png","filename":"flower.png"},
-        { "id":2,"src": "/img/bg/flower1.png","filename":"flower1.png"}
+        { "id":2,"src": "/img/bg/flower1.png","filename":"flower1.png"},
+        { "id":3,"src": "/img/bg/test.jpg","filename":"test.jpg"}
     ],
     "elements": [
       { "id": 0,

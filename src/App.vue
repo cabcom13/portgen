@@ -199,9 +199,10 @@ export default {
           this.$store.dispatch('rect/setHeight', {id: index, height: newRect.height});
       },
       addItem(typ){
+        var element = {}
         switch (typ) {
           case 'text':
-            var element= {
+            element= {
                 "width": 150,
                 "height": 21,
                 "top": 0,
@@ -232,7 +233,7 @@ export default {
               this.$store.dispatch('rect/addElement', {data:element});
             break;
           case 'letterbox':
-            var element= {
+            element= {
                 "width": 300,
                 "height": 60,
                 "top": 0,
@@ -265,7 +266,7 @@ export default {
               break;
             
             case 'imagebox913':
-              var element= {
+              element= {
                 "width": 340,
                 "height": 491,
                 "top": 0,
@@ -293,7 +294,6 @@ export default {
                     "text-align": "left",
                     "width": "9cm",
                     "height": "13cm",
-                    "text-align" :"center",
                     "padding-top" :'220px'
                     
                 }
@@ -302,7 +302,7 @@ export default {
               break;
 
               case 'imagebox139':
-              var element= {
+              element= {
                 "width": 491,
                 "height": 340,
                 "top": 0,
@@ -330,7 +330,6 @@ export default {
                     "text-align": "left",
                     "width": "13cm",
                     "height": "9cm",
-                    "text-align" :"center",
                     "padding-top" :'150px'
                     
                 }
@@ -340,7 +339,7 @@ export default {
 
 
               case 'clipart':
-              var element= {
+              element= {
                 "width": 150,
                 "height": 150,
                 "top": 0,
@@ -368,7 +367,6 @@ export default {
                     "text-align": "left",
                     "width": "13cm",
                     "height": "9cm",
-                    "text-align" :"center",
                     "padding-top" :'150px'
                     
                 }
