@@ -1,5 +1,5 @@
 <template>
-  <v-app dark="" class="pt-3">
+  <v-app dark="" class="pt-3 ">
     <v-toolbar app dense fixed style="z-index:999">
       <v-toolbar-title class="headline text-uppercase">
         <span>Vuetify</span>
@@ -19,8 +19,9 @@
  
             <v-btn block @click="addItem('text')" >Text</v-btn>
             <v-btn block @click="addItem('letterbox')" >Schreibfeld</v-btn>
-            <v-btn block @click="addItem('imagebox913')" >Bild 9x13</v-btn>
-            <v-btn block @click="addItem('imagebox139')" >Bild 13x9</v-btn>
+            <v-btn block @click="addItem('imagebox913')" >Foto 9x13</v-btn>
+            <v-btn block @click="addItem('imagebox139')" >Foto 13x9</v-btn>
+            
           </v-card>
         </v-flex>
         <v-flex xs6 offset-xs1 align-self-center style="position:relative">
@@ -82,7 +83,7 @@
                 
                 </VueDragResize>
  
-                  <div class="copyright">Portfolio Vorlagen </div>
+                  <div class="copyright noselect">Portfolio Vorlagen </div>
             </div>
           </div>
         </v-flex>
@@ -349,7 +350,13 @@ export default {
 }
 </script>
 <style>
+
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC|Architects+Daughter|Handlee|Permanent+Marker|Satisfy&display=swap');
+
 #page{
+ font-family: 'Amatic SC', cursive;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   width: 210mm;
   height: 297mm;
   overflow: hidden;
@@ -395,5 +402,13 @@ export default {
 .active::before{
       outline: 2px dashed #ff0000!important;
 }
-
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
 </style>

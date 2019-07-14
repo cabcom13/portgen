@@ -32,7 +32,9 @@ import {
     CHANGE_FONTCOLOR,
     CHANGE_FONTALIGN,
     CHANGE_FONTWEIGHT,
-    CHANGE_TEXT
+    CHANGE_TEXT,
+    CHANGE_ELEMENT_BACKGROUNDCOLOR,
+    CHANGE_FONT
 } from './mutation-types';
 
 export default {
@@ -161,6 +163,12 @@ export default {
     [CHANGE_TEXT](state, payload) {
         state.rects.childs[payload.id].text = payload.text
     },
+    [CHANGE_ELEMENT_BACKGROUNDCOLOR](state, payload) {
+        state.rects.childs[payload.id].style['background-color'] = payload.color
+    },
+    [CHANGE_FONT](state, payload) {
+        state.rects.childs[payload.id].style['font-family'] = payload.font
+    }, 
+    
 
-      
 };

@@ -1,39 +1,50 @@
 <template>
 <div  @mousedown.stop>
-    <v-list>
-    <v-list-group
-        v-for="item in items"
-        :key="item.title"
-        v-model="item.active"
-        :prepend-icon="item.action"
-        no-action
-    >
-        <template v-slot:activator>
-            <v-list-tile>
-                <v-list-tile-content>
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
-        </template>
 
-            <v-list-tile
-            v-for="subItem in item.items"
-            :key="subItem.title"
-            
-            >
-            <v-list-tile-content >
-                <v-list-tile-title  @click="loadData(subItem.id)">
-                    {{ subItem.title }}</v-list-tile-title>
-            </v-list-tile-content>
-
-            <v-list-tile-action >
-                <v-icon>{{ subItem.action }}</v-icon>
-            </v-list-tile-action>
-            </v-list-tile>
-    </v-list-group>
-    </v-list>
 
         <v-expansion-panel dark focusable>
+
+            <v-expansion-panel-content ripple expand true>
+            <template v-slot:header>
+                <div>Vorlagen</div>
+            </template>
+            <v-card>
+                <v-list>
+                <v-list-group
+                    v-for="item in items"
+                    :key="item.title"
+                    v-model="item.active"
+                    :prepend-icon="item.action"
+                    no-action
+                >
+                    <template v-slot:activator>
+                        <v-list-tile>
+                            <v-list-tile-content>
+                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </template>
+
+                        <v-list-tile
+                        v-for="subItem in item.items"
+                        :key="subItem.title"
+                        
+                        >
+                        <v-list-tile-content >
+                            <v-list-tile-title  @click="loadData(subItem.id)">
+                                {{ subItem.title }}</v-list-tile-title>
+                        </v-list-tile-content>
+
+                        <v-list-tile-action >
+                            <v-icon>{{ subItem.action }}</v-icon>
+                        </v-list-tile-action>
+                        </v-list-tile>
+                </v-list-group>
+                </v-list>
+
+            </v-card>
+            </v-expansion-panel-content>
+
 
             <v-expansion-panel-content ripple expand true>
             <template v-slot:header>
@@ -42,15 +53,37 @@
             <v-card>
                 <v-card-text>
                    
- 
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                        <v-layout row wrap>
+                            <v-flex xs12 sm4 align-self-center>
+                                <strong class="grey--text text--lighten-1">Hintergrund</strong>
+                            </v-flex>
+                            <v-flex xs12 sm8 >
+                                <swatches show-border shapes="circles" :colors="owncolors" v-model="elementbackgroundcolor"  background-color="#212121" :disabled="activeRect == null ? true: false"></swatches>
+                            </v-flex>
+                        </v-layout>                 
+                    </div>
 
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                        <v-layout row wrap>
+                        <v-flex xs12 sm4 align-self-center>
+                            <strong class="grey--text text--lighten-1">Ebene</strong>
+                        </v-flex>
+                        <v-flex xs12 sm8 align-self-center>
+                            <v-btn name="toBottom" :disabled="activeRect!==null && zIndex !== 'isFirst' ? false : true"  @click.native="toBottom" dark><v-icon>expand_more</v-icon> nach Unten</v-btn>
+                            <v-btn name="toTop" :disabled="activeRect!==null && zIndex !== 'isLast' ? false : true"  @click.native="toTop" dark> <v-icon>expand_less</v-icon> nach Oben</v-btn>
+                        </v-flex>
+                        </v-layout> 
+                    </div>
                     <!-- <v-text-field :disabled="activeRect == null ? true: false" label="Höhe" placeholder="" v-model="height" dark></v-text-field> -->
                     <!-- <v-text-field :disabled="activeRect == null ? true: false" label="Breite" placeholder="" v-model="width" dark></v-text-field> -->
-                    <div style="border-bottom:1px solid black;" class="mb-3">
-                        <strong class="grey--text text--lighten-1">Schrift Style</strong>
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
                         <v-layout row wrap>
-                            <v-flex xs12 sm4 class="py-2">
-                                <v-btn-toggle v-model="textalign" dark>
+                        <v-flex xs12 sm4 align-self-center>
+                            <strong class="grey--text text--lighten-1">Ausrichtung</strong>
+                        </v-flex>
+                        <v-flex xs12 sm8 align-self-center>
+                            <v-btn-toggle v-model="textalign" dark>
                                     <v-btn flat :disabled="activeRect == null ? true: false">
                                     <v-icon>format_align_left</v-icon>
                                     </v-btn>
@@ -64,32 +97,69 @@
                                     <v-icon>format_align_justify</v-icon>
                                     </v-btn>
                                 </v-btn-toggle>
+                        </v-flex>
+                        </v-layout>
+                    </div>
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                        <v-layout row wrap>
+                            <v-flex xs12 sm4 align-self-center>
+                                <strong class="grey--text text--lighten-1">Schriftart</strong>
                             </v-flex>
-                        
-                        <v-flex xs12 sm4 class="py-2">
-                        
+                            <v-flex xs12 sm8 >
+                                <font-picker :api-key="'AIzaSyD7_5Y-7OkSDFd2R2-w5aKsIg8xYCHZUCA'"  @onChange="myFunc"></font-picker>
+                                <!-- <select @mousedown.stop single-line  dark :items="fontfamilys" label="Standard"></select>  -->
+                            </v-flex>
+                        </v-layout>                 
+                    </div>
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                        <v-layout row wrap>
+                        <v-flex xs12 sm4 align-self-center>
+                            <strong class="grey--text text--lighten-1">Schrift Style</strong>
+                        </v-flex>
+                        <v-flex xs12 sm8 align-self-center>
                                 <v-btn-toggle v-model="fontweight" dark>
                                     <v-btn flat>
                                     <v-icon>format_bold</v-icon>
                                     </v-btn>
 
                                 </v-btn-toggle>
-                                </v-flex>
-                        </v-layout>    
+                        </v-flex>
+                        </v-layout>
                     </div>
-                    <div style="border-bottom:1px solid black;" class="mb-3">
-                        <strong class="grey--text text--lighten-1">Text</strong>
-                        <v-text-field :disabled="activeRect == null ? true: false" v-model="text" dark></v-text-field>
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" >
+                        <v-layout row wrap>
+                        <v-flex xs12 sm4 align-self-center>
+                            <strong class="grey--text text--lighten-1">Text</strong>
+                        </v-flex>
+                        <v-flex xs12 sm8 align-self-center class="mt-3">
+                            <v-text-field :disabled="activeRect == null ? true: false" v-model="text" dark  single-line></v-text-field>
+                        </v-flex>
+                        </v-layout>
+                    </div>
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+
+                            <v-layout row wrap>
+                            <v-flex xs12 sm4 align-self-center>
+                                <strong class="grey--text text--lighten-1">Schriftfarbe</strong>
+                            </v-flex>
+                            <v-flex xs12 sm8>
+                                <swatches  show-border :colors="owncolors" v-model="color" shapes="circles" background-color="#212121"></swatches>
+                            </v-flex>
+                            </v-layout>
+                    </div>
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                        <v-layout row wrap>
+                        <v-flex xs12 sm4 align-self-center>
+                            <strong class="grey--text text--lighten-1">Schriftgröße</strong>
+                        </v-flex>
+                        <v-flex xs12 sm8 align-self-center>
+                            <v-slider :readonly="activeRect == null ? true: false" v-model="fontsize" dark></v-slider>
+                        </v-flex>
+                        </v-layout> 
                     </div>
 
-                    <div style="border-bottom:1px solid black;" class="mb-3">
-                        <strong class="grey--text text--lighten-1">Schriftfarbe</strong>
-                        <swatches :colors="owncolors" v-model="color" shapes="circles" inline background-color="transparent"></swatches>
-                    </div>
-                    <div style="border-bottom:1px solid black;" class="mb-3">
-                        <strong class="grey--text text--lighten-1">Schriftgröße</strong>
-                        <v-slider :readonly="activeRect == null ? true: false" v-model="fontsize" dark></v-slider>
-                    </div>
+      
+
                     <v-btn ripple color="error" @click="removeElement(activeRect)" :disabled="activeRect == null ? true: false">Löschen</v-btn>
                 </v-card-text>
             </v-card>
@@ -126,6 +196,9 @@
 </div>
 </template>
 <style scope>
+.vue-swatches__trigger{
+    border:1px solid #212121;
+}
 
 </style>
 
@@ -135,6 +208,7 @@ import Swatches from 'vue-swatches'
 import VueSelectImage from 'vue-select-image'
 import axios from 'axios'
 import Loading from 'vue-loading-overlay';
+import FontPicker from 'font-picker-vue';
 
 // add stylesheet
 require('vue-select-image/dist/vue-select-image.css')
@@ -143,11 +217,12 @@ require("vue-swatches/dist/vue-swatches.min.css");
 require("vue-swatches/dist/vue-swatches.min.css");
 
 export default {
-    components: { VueSelectImage, Swatches,  Loading, Swatches},
+    components: { VueSelectImage, Swatches,  Loading, Swatches, FontPicker},
     data: () => ({
+        fontfamilys:['Amatic SC', 'Satisfy', 'Permanent Marker', 'Architects Daughter', 'Handlee'],
         dataImages:[],
         owncolors:[
-            '#000000','#1FBC9C','#1CA085','#2ECC70','#27AF60','#3398DB','#2980B9','#A463BF','#8E43AD','#3D556E','#222F3D','#F2C511','#F39C19','#E84B3C','#C0382B','#DDE6E8','#BDC3C8','#FFFFFF'
+            'transparent','#000000','#1FBC9C','#1CA085','#2ECC70','#27AF60','#3398DB','#2980B9','#A463BF','#8E43AD','#3D556E','#222F3D','#F2C511','#F39C19','#E84B3C','#C0382B','#DDE6E8','#BDC3C8','#FFFFFF'
         ],
         isLoading: false,
         initialSelected:[],
@@ -306,6 +381,15 @@ export default {
             }
             
         },
+        elementbackgroundcolor:{
+            get: function() {
+                return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].style['background-color']
+            },
+            set: function(newValue) {
+                this.$store.dispatch('rect/changeElementBackgroundColor', {id: this.activeRect,"color":newValue});
+            }
+            
+        },
         activeRect() {
             return this.$store.getters['rect/getActive'];
         },
@@ -381,7 +465,15 @@ export default {
         }
     },
     methods: {
-
+        myFunc(e){
+            if (this.activeRect === null) {
+                return
+            }
+            console.log(e)
+            
+            this.$store.dispatch('rect/changeFont', {id: this.activeRect, font:e.family});
+            
+        },
         removeElement:function(index){
             if (this.activeRect === null) {
                 return
