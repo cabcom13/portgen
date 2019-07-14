@@ -106,7 +106,11 @@
                                 <strong class="grey--text text--lighten-1">Schriftart</strong>
                             </v-flex>
                             <v-flex xs12 sm8 >
-                                <font-picker :api-key="'AIzaSyD7_5Y-7OkSDFd2R2-w5aKsIg8xYCHZUCA'"  @onChange="myFunc"></font-picker>
+                               {{fontfamily}}
+                               <select>
+                                   <option>asdasdasd</option>
+                                   <option>asdasdasd123</option>
+                               </select>
                                 <!-- <select @mousedown.stop single-line  dark :items="fontfamilys" label="Standard"></select>  -->
                             </v-flex>
                         </v-layout>                 
@@ -192,7 +196,31 @@
             </v-expansion-panel-content>
 
         </v-expansion-panel>
- 
+<v-layout row justify-center>
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition" dark >
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
+      </template>
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="dialog = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Settings</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn dark flat @click="dialog = false">Save</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <v-card-text>
+            <vue-select-image :dataImages="dataImages" :h="150" @onselectimage="onSelectImage"></vue-select-image>
+        </v-card-text>
+        
+                        
+      </v-card>
+    </v-dialog>
+</v-layout>
+
 </div>
 </template>
 <style scope>
@@ -221,6 +249,7 @@ export default {
     data: () => ({
         fontfamilys:['Amatic SC', 'Satisfy', 'Permanent Marker', 'Architects Daughter', 'Handlee'],
         dataImages:[],
+        dialog: true,
         owncolors:[
             'transparent','#000000','#1FBC9C','#1CA085','#2ECC70','#27AF60','#3398DB','#2980B9','#A463BF','#8E43AD','#3D556E','#222F3D','#F2C511','#F39C19','#E84B3C','#C0382B','#DDE6E8','#BDC3C8','#FFFFFF'
         ],
@@ -322,6 +351,17 @@ export default {
                     this.$store.dispatch('rect/changeFontWeight', {id: this.activeRect,"fontweight":400});
                 }
                  
+            }
+        },
+        fontfamily:{
+            get: function() {
+                if(this.activeRect === null) {
+                    return
+                } else {
+                    return this.$store.state.rect.rects.childs[this.activeRect].style['font-family']
+                }
+            },set: function(newValue) {
+                console.log(newValue)
             }
         },
         textalign:{

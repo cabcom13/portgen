@@ -1,6 +1,6 @@
 <template>
-  <v-app dark="" class="pt-3 ">
-    <v-toolbar app dense fixed style="z-index:999">
+  <v-app id="app" dark="" class="pt-3 ">
+    <v-toolbar app dense fixed  style="z-index:110">
       <v-toolbar-title class="headline text-uppercase">
         <span>Vuetify</span>
         <span class="font-weight-light">MATERIAL DESIGN</span>
@@ -21,7 +21,8 @@
             <v-btn block @click="addItem('letterbox')" >Schreibfeld</v-btn>
             <v-btn block @click="addItem('imagebox913')" >Foto 9x13</v-btn>
             <v-btn block @click="addItem('imagebox139')" >Foto 13x9</v-btn>
-            
+            <v-btn block @click="addItem('clipart')" >Clipart</v-btn>
+
           </v-card>
         </v-flex>
         <v-flex xs6 offset-xs1 align-self-center style="position:relative">
@@ -98,9 +99,6 @@
   <div id="pdf"></div>
 
     <loading :active.sync="isLoading" loader="dots"></loading>
-    
-   
-   
 
   </v-app>
 </template>
@@ -321,6 +319,44 @@ export default {
                 "active": false,
                 "class":"imagebox139",
                 "text":"hier foto aufkleben",
+                "style":{
+                    "backgroundcolor": "transparent",
+                    "font-size": "12px",
+                    "color": "#000000",
+                    "letter-spacing":"0em",
+                    "font-weight":400,
+                    "font-style": "",
+                    "text-decoration":"",
+                    "text-align": "left",
+                    "width": "13cm",
+                    "height": "9cm",
+                    "text-align" :"center",
+                    "padding-top" :'150px'
+                    
+                }
+              }
+              this.$store.dispatch('rect/addElement', {data:element});
+              break;
+
+
+              case 'clipart':
+              var element= {
+                "width": 150,
+                "height": 150,
+                "top": 0,
+                "left": 0,
+                "draggable": true,
+                "resizable": true,
+                "minw": 50,
+                "minh": 50,
+                "axis": "both",
+                "parentLim": true,
+                "snapToGrid": true,
+                "aspectRatio": false,
+                "zIndex": 1,
+                "active": false,
+                "class":"clipart",
+                "text":"clipart",
                 "style":{
                     "backgroundcolor": "transparent",
                     "font-size": "12px",
