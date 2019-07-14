@@ -26,7 +26,11 @@ import {
     ADD_ELEMENT,
     REMOVE_ELEMENT,
     CHANGE_PAGE_BACKGROUND_IMAGE,
-    CHANGE_FONTSIZE
+    CHANGE_FONTSIZE,
+    CHANGE_BACKGROUNDCOLOR,
+    CHANGE_BACKGROUNDOPACITY,
+    CHANGE_FONTCOLOR,
+    CHANGE_FONTALIGN
 } from './mutation-types';
 
 export default {
@@ -134,9 +138,22 @@ export default {
         state.rects.page.backgroundimage = payload.file
         state.rects.page.backgroundimageID = payload.id
     },
+    [CHANGE_BACKGROUNDCOLOR](state, payload) {
+        state.rects.page.backgroundcolor = payload
+    }, 
+    [CHANGE_BACKGROUNDOPACITY](state, payload) {
+        console.log(payload)
+        state.rects.page.opacity = payload
+    }, 
     [CHANGE_FONTSIZE](state, payload) {
-   
         state.rects.childs[payload.id].style['font-size'] = payload.fontsize
     }, 
+    [CHANGE_FONTCOLOR](state, payload) {
+         state.rects.childs[payload.id].style.color = payload.color
+    }, 
+    [CHANGE_FONTALIGN](state, payload) {
+        state.rects.childs[payload.id].style['text-align'] = payload.textalign
+   }, 
+    
     
 };

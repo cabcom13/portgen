@@ -32,37 +32,78 @@
             </v-list-tile>
     </v-list-group>
     </v-list>
-<v-btn ripple color="error" @click="removeElement(activeRect)" :disabled="activeRect == null ? true: false">Löschen</v-btn>
-{{color}}
-{{activeRect}}
-{{width}}
-{{height}}
 
- <v-slider dark :readonly="activeRect == null ? true: false" v-model="fontsize"></v-slider>
-<v-tabs dark>
-    <v-tab>
-        Seite
-    </v-tab>
-    <v-tab-item>
-        <v-expansion-panel dark expand>
-            <v-expansion-panel-content ripple true>
+        <v-expansion-panel dark focusable>
+
+            <v-expansion-panel-content ripple expand true>
             <template v-slot:header>
-                <div>Hintergrundfarbe</div>
+                <div>Element</div>
             </template>
             <v-card>
                 <v-card-text>
+                   
+ <v-layout row wrap>
+    <v-flex xs12 sm4 class="py-2">
+        <v-btn-toggle v-model="textalign" dark>
+            <v-btn flat :disabled="activeRect == null ? true: false">
+            <v-icon>format_align_left</v-icon>
+            </v-btn>
+            <v-btn flat :disabled="activeRect == null ? true: false">
+            <v-icon>format_align_center</v-icon>
+            </v-btn>
+            <v-btn flat :disabled="activeRect == null ? true: false">
+            <v-icon>format_align_right</v-icon>
+            </v-btn>
+            <v-btn flat :disabled="activeRect == null ? true: false">
+            <v-icon>format_align_justify</v-icon>
+            </v-btn>
+        </v-btn-toggle>
+    </v-flex>
+   
+   <v-flex xs12 sm4 class="py-2">
+   
+        <v-btn-toggle v-model="fontweight" dark>
+            <v-btn flat>
+            <v-icon>format_bold</v-icon>
+            </v-btn>
+
+        </v-btn-toggle>
+        </v-flex>
+</v-layout>    
+
+                    <!-- <v-text-field :disabled="activeRect == null ? true: false" label="Höhe" placeholder="" v-model="height" dark></v-text-field> -->
+                    <!-- <v-text-field :disabled="activeRect == null ? true: false" label="Breite" placeholder="" v-model="width" dark></v-text-field> -->
                 
- 
+                   <div style="border-bottom:1px solid black;" class="mb-3">
+                        <strong class="grey--text text--lighten-1">Schriftfarbe</strong>
+                        {{color}}
+                        <swatches :colors="owncolors" v-model="color" shapes="circles" inline background-color="transparent"></swatches>
+                    </div>
+                    <div style="border-bottom:1px solid black;" class="mb-3">
+                        <strong class="grey--text text--lighten-1">Schriftgröße</strong>
+                        <v-slider :readonly="activeRect == null ? true: false" v-model="fontsize" dark></v-slider>
+                    </div>
+                    <v-btn ripple color="error" @click="removeElement(activeRect)" :disabled="activeRect == null ? true: false">Löschen</v-btn>
                 </v-card-text>
             </v-card>
             </v-expansion-panel-content>
 
-            <v-expansion-panel-content ripple true>
+
+            <v-expansion-panel-content ripple expand >
             <template v-slot:header>
-                <div>Hintergrundbild</div>
+                <div>Seite</div>
             </template>
-            <v-card>
-                <v-card-text>
+            <v-card >
+                <v-card-text class="grey darken-4">
+                    <div style="border-bottom:1px solid black;" class="mb-3">
+                        <strong class="grey--text text--lighten-1">Hintergrundfarbe</strong>
+                        <swatches :colors="owncolors" v-model="pagebackgroundColor" shapes="circles" inline background-color="transparent"></swatches>
+                    </div>
+                    <div style="border-bottom:1px solid black;" class="mb-3">
+                        <strong class="grey--text text--lighten-1">Transparenz</strong>
+                        <v-slider v-model="backgroundopacity" max="1" step="0.1" dark></v-slider>
+                    </div>
+                    <strong class="grey--text text--lighten-1">Hintergrundbild</strong>
                         <vue-select-image h="100" :dataImages="dataImages"
                             @onselectimage="onSelectImage"
                             :selectedImages="[background_image.id]"
@@ -74,11 +115,12 @@
             </v-expansion-panel-content>
 
         </v-expansion-panel>
-      </v-tab-item>
-
-</v-tabs>
+ 
 </div>
 </template>
+<style scope>
+
+</style>
 
 <script>
 // Import component
@@ -86,16 +128,20 @@ import Swatches from 'vue-swatches'
 import VueSelectImage from 'vue-select-image'
 import axios from 'axios'
 import Loading from 'vue-loading-overlay';
+
 // add stylesheet
 require('vue-select-image/dist/vue-select-image.css')
 require('vue-loading-overlay/dist/vue-loading.css');
 require("vue-swatches/dist/vue-swatches.min.css");
+require("vue-swatches/dist/vue-swatches.min.css");
 
 export default {
-    components: { VueSelectImage, Swatches,  Loading },
+    components: { VueSelectImage, Swatches,  Loading, Swatches},
     data: () => ({
         dataImages:[],
-     
+        owncolors:[
+            '#000000','#1FBC9C','#1CA085','#2ECC70','#27AF60','#3398DB','#2980B9','#A463BF','#8E43AD','#3D556E','#222F3D','#F2C511','#F39C19','#E84B3C','#C0382B','#DDE6E8','#BDC3C8','#FFFFFF'
+        ],
         isLoading: false,
         initialSelected:[],
         items: [
@@ -137,6 +183,24 @@ export default {
         window.removeEventListener('keydown', this.onkey)
     },
     computed: {
+        
+        pagebackgroundColor:{
+            get: function() {
+                return this.$store.state.rect.rects.page.backgroundcolor
+            },
+            set: function(newValue) {
+                this.$store.dispatch('rect/changeBackgroundColor', {"color":newValue});
+            }
+        },
+        backgroundopacity:{
+            get: function() {
+                return this.$store.state.rect.rects.page.opacity
+            },
+            set: function(newValue) {
+                this.$store.dispatch('rect/changeBackgroundOpacity', {"opacity":newValue});
+            }
+        },
+        
         background_image(){
             return {
                 id: this.$store.state.rect.rects.page.backgroundimageID,
@@ -150,9 +214,76 @@ export default {
             set: function(newValue) {
                 this.$store.dispatch('rect/changeFontSize', {id: this.activeRect,"fontsize":newValue+'px'});
             }
-         },
-        color(){
-            return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].style.backgroundcolor
+        },
+        fontweight:{
+            get: function() {
+                if(this.activeRect === null) {
+                    return ''
+                } else {
+                    let typ = null;
+                    if(this.$store.state.rect.rects.childs[this.activeRect].style['font-weight'] === 400){
+                        typ = null
+                    } else if(this.$store.state.rect.rects.childs[this.activeRect].style['font-weight'] === 800){
+                        typ = 0     
+                    }
+                    
+                    return typ
+                }
+
+
+                
+            },
+            set: function(newValue) {
+                // this.$store.dispatch('rect/changeFontSize', {id: this.activeRect,"fontsize":newValue+'px'});
+            }
+        },
+        textalign:{
+            get: function() {
+
+                if(this.activeRect === null) {
+                    return ''
+                } else {
+                    let typ = 0;
+                    if(this.$store.state.rect.rects.childs[this.activeRect].style['text-align'] === 'left'){
+                        typ = 0
+                    } else if(this.$store.state.rect.rects.childs[this.activeRect].style['text-align'] === 'center'){
+                        typ = 1
+                    } else if(this.$store.state.rect.rects.childs[this.activeRect].style['text-align'] === 'right'){
+                        typ = 2
+                    } else if(this.$store.state.rect.rects.childs[this.activeRect].style['text-align'] === 'justify'){
+                        typ = 2
+                    }
+                    return typ
+                    
+                }
+
+              
+            },
+            set: function(newValue) {
+                let typ = 'left';
+                if(newValue === 0){
+                    typ = 'left'
+                } else if(newValue === 1){
+                    typ = 'center'    
+                } else if(newValue === 2){
+                    typ = 'right'
+                } else if(newValue === 3){
+                    typ = 'justify'
+                }
+                
+                this.$store.dispatch('rect/changeFontAlign', {id: this.activeRect,"textalign":typ});
+            }
+            
+        },
+        color:{
+            get: function() {
+                return this.activeRect === null ? '' : this.$store.state.rect.rects.childs[this.activeRect].style.color
+            },
+            set: function(newValue) {
+                
+                this.$store.dispatch('rect/changeFontColor', {id: this.activeRect,"color":newValue});
+            }
+            
         },
         activeRect() {
             return this.$store.getters['rect/getActive'];
@@ -229,6 +360,7 @@ export default {
         }
     },
     methods: {
+
         removeElement:function(index){
             if (this.activeRect === null) {
                 return

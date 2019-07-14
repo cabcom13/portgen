@@ -29,18 +29,19 @@
                 "zIndex": 3,
           
                 "active": false,
-                "class":"text",
+                "class":"text apply-font",
                 "text":"NEUER TEXT",
                
                 "style":{
                     "background-color": "#EF9A9A",
                     "font-size": "12px",
+                    "font-family": "Comic Sans MS",
                     "color" :"#000000",
                     "letter-spacing":"0em",
-                    "font-weight":400,
+                    "font-weight":800,
                     "font-style": "",
                     "text-decoration":"",
-                    "text-align": "left"
+                    "text-align": "center"
                 }
             },
             {

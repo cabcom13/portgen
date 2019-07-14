@@ -3,7 +3,9 @@ export default {
          "id": 0,
         "page":{
             "backgroundimageID":2,
-            "backgroundimage": "flower1.png"
+            "backgroundcolor": "#ffffff",
+            "backgroundimage": "no.png",
+            "opacity": "1"
         },
         "childs": [
             {
@@ -28,10 +30,11 @@ export default {
                 "style":{
                     "background-color": "#EF9A9A",
                     "font-size": "12px",
+                    "font-family": "Abril Fatface",
                     "color" :"#000000",
                     "letter-spacing":"0em",
                     "font-weight":400,
-                    "font-style": "",
+                    "font-weight": "italic",
                     "text-decoration":"",
                     "text-align": "left"
                 }
@@ -61,7 +64,7 @@ export default {
                     "font-size": "12px",
                     "letter-spacing":"0em",
                     "font-weight":400,
-                    "font-style": "",
+                    "font-weight": "400",
                     "text-decoration":"",
                     "text-align": "left"
                 }

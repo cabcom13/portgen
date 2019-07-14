@@ -1,6 +1,18 @@
 import types, {CHANGE_ZINDEX} from './mutation-types';
 
 export default {
+    changeFontAlign({commit}, payLoad){
+        commit(types.CHANGE_FONTALIGN, payLoad);
+    },
+    changeFontColor({commit}, payLoad){
+        commit(types.CHANGE_FONTCOLOR, payLoad);
+    },
+    changeBackgroundColor({commit}, payLoad){
+        commit(types.CHANGE_BACKGROUNDCOLOR, payLoad.color);
+    },
+    changeBackgroundOpacity({commit}, payLoad){
+        commit(types.CHANGE_BACKGROUNDOPACITY, payLoad.opacity);
+    },
     removeElement({commit}, {id}){
         commit(types.REMOVE_ELEMENT, id);
     },
