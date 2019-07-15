@@ -14,31 +14,21 @@
                     v-for="item in items"
                     :key="item.title"
                     v-model="item.active"
-                    :prepend-icon="item.action"
+                  
                     no-action
                 >
                     <template v-slot:activator>
                         <v-list-tile>
                             <v-list-tile-content>
-                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                            <v-list-tile-title ripple>{{ item.title }}</v-list-tile-title>
                             </v-list-tile-content>
                         </v-list-tile>
                     </template>
-
-                        <v-list-tile
-                        v-for="subItem in item.items"
-                        :key="subItem.title"
-                        
-                        >
-                        <v-list-tile-content >
-                            <v-list-tile-title  @click="loadData(subItem.id)">
-                                {{ subItem.title }}</v-list-tile-title>
-                        </v-list-tile-content>
-
-                        <v-list-tile-action >
-                            <v-icon>{{ subItem.action }}</v-icon>
-                        </v-list-tile-action>
-                        </v-list-tile>
+                        <ul class="slim_list">
+                            <li @click="addNewPreset()">Neue Vorlage erstellen</li>
+                            <li v-ripple :class="loadedPreset == subItem.id?'active':''" v-for="subItem in item.items" :key="subItem.id" @click="loadData(subItem.id)">{{ subItem.title }}</li>
+                        </ul>
+          
                 </v-list-group>
                 </v-list>
 
@@ -51,6 +41,7 @@
                 <div>Element</div>
             </template>
             <v-card>
+            
                 <v-card-text>
                    
                     <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
@@ -59,23 +50,24 @@
                                 <strong class="grey--text text--lighten-1">Hintergrundfarbe</strong>
                             </v-flex>
                             <v-flex xs12 sm8 >
+    
                                 <swatches show-border shapes="circles" :colors="owncolors" v-model="elementbackgroundcolor"  background-color="#212121" :disabled="activeRect == null ? true: false"></swatches>
                             </v-flex>
                         </v-layout>                 
                     </div>
-                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                    <!-- <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
                         <v-layout row wrap>
                             <v-flex xs12 sm4 align-self-center>
                                 <strong class="grey--text text--lighten-1">Drehung</strong>
                             </v-flex>
                             <v-flex xs12 sm8 >
                                 {{rotation}}
-      <!--  <v-slider v-model="rotation" max="180" min="-180"></v-slider>-->
+                                <v-slider v-model="rotation" max="180" min="-180"></v-slider>
                             </v-flex>
                         </v-layout>                 
-                    </div>
-
-                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                    </div> -->
+   
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3" v-show="recttype == 'clipart'">
                         <v-layout row wrap>
                             <v-flex xs12 sm4 align-self-center>
                                 <strong class="grey--text text--lighten-1">Hintergrundbild</strong>
@@ -107,12 +99,8 @@
                                                     <vue-select-image @mousedown.stop :dataImages="clipartImages" h="150" @onselectimage="takeSelectedImage"></vue-select-image>
                                                 </v-flex>
                                             </v-layout> 
-
-
-                                            
                                         </v-card-text>
-                                        
-                                                        
+                  
                                     </v-card>
                                     </v-dialog>
                                 </v-layout>                           
@@ -120,6 +108,18 @@
                             </v-flex>
                         </v-layout>                 
                     </div>
+
+                    <!-- <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3" v-show="recttype == 'clipart'">
+                        <v-layout row wrap>
+                            <v-flex xs12 sm4 align-self-center>
+                                <strong class="grey--text text--lighten-1">Hintergrund Wiederholung</strong>
+                            </v-flex>
+                            <v-flex xs12 sm8 >
+
+                            </v-flex>
+                        </v-layout>
+                    </div> -->
+
                     <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
                         <v-layout row wrap>
                         <v-flex xs12 sm4 align-self-center>
@@ -133,7 +133,7 @@
                     </div>
                     <!-- <v-text-field :disabled="activeRect == null ? true: false" label="Höhe" placeholder="" v-model="height" dark></v-text-field> -->
                     <!-- <v-text-field :disabled="activeRect == null ? true: false" label="Breite" placeholder="" v-model="width" dark></v-text-field> -->
-                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3" v-show="recttype == 'text'">
                         <v-layout row wrap>
                         <v-flex xs12 sm4 align-self-center>
                             <strong class="grey--text text--lighten-1">Ausrichtung</strong>
@@ -156,7 +156,7 @@
                         </v-flex>
                         </v-layout>
                     </div>
-                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3" v-show="recttype == 'text'">
                         <v-layout row wrap>
                             <v-flex xs12 sm4 align-self-center>
                                 <strong class="grey--text text--lighten-1">Schriftart</strong>
@@ -171,7 +171,7 @@
                             </v-flex>
                         </v-layout>                 
                     </div>
-                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3" v-show="recttype == 'text'">
                         <v-layout row wrap>
                         <v-flex xs12 sm4 align-self-center>
                             <strong class="grey--text text--lighten-1">Schrift Style</strong>
@@ -186,7 +186,7 @@
                         </v-flex>
                         </v-layout>
                     </div>
-                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" >
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" v-show="recttype == 'text'">
                         <v-layout row wrap>
                         <v-flex xs12 sm4 align-self-center>
                             <strong class="grey--text text--lighten-1">Text</strong>
@@ -196,8 +196,8 @@
                         </v-flex>
                         </v-layout>
                     </div>
-                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
 
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3" v-show="recttype == 'text'">
                             <v-layout row wrap>
                             <v-flex xs12 sm4 align-self-center>
                                 <strong class="grey--text text--lighten-1">Schriftfarbe</strong>
@@ -207,7 +207,8 @@
                             </v-flex>
                             </v-layout>
                     </div>
-                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3">
+
+                    <div style="border-bottom:1px solid rgba(21,21,21,.5);" class="py-3" v-show="recttype == 'text'">
                         <v-layout row wrap>
                         <v-flex xs12 sm4 align-self-center>
                             <strong class="grey--text text--lighten-1">Schriftgröße</strong>
@@ -257,6 +258,27 @@
 .vue-swatches__trigger{
     border:1px solid #212121;
 }
+ul.slim_list{
+    margin:0;
+    padding:0;
+    margin-bottom:1rem;
+}
+ul.slim_list li{
+    list-style: none;
+    border-bottom:1px solid rgba(21,21,21,.8);
+    padding:.8rem 1rem .8rem 3rem; 
+    font-size:1.1rem;
+    cursor: pointer;
+}
+ul.slim_list li.active{
+    background:rgb(97, 184, 101)
+}
+ul.slim_list li.active:hover{
+    background:rgb(106, 196, 109)
+}
+ul.slim_list li:hover{
+    background:rgba(21,21,21,.4)
+}
 
 </style>
 
@@ -280,6 +302,7 @@ export default {
         fontfamilys:['Amatic SC', 'Satisfy', 'Permanent Marker', 'Architects Daughter', 'Handlee'],
         dataImages:[],
         clipartImages:[],
+        loadedPreset:null,
         dialog: false,
         owncolors:[
             'transparent','#000000','#1FBC9C','#1CA085','#2ECC70','#27AF60','#3398DB','#2980B9','#A463BF','#8E43AD','#3D556E','#222F3D','#F2C511','#F39C19','#E84B3C','#C0382B','#DDE6E8','#BDC3C8','#FFFFFF'
@@ -334,6 +357,9 @@ export default {
         window.removeEventListener('keydown', this.onkey)
     },
     computed: {
+        recttype(){
+            return this.activeRect === null ? 0 : this.$store.state.rect.rects.childs[this.activeRect].type
+        },
         rotation:{
             get: function() {
                 return this.activeRect === null ? 0 : this.$store.state.rect.rects.childs[this.activeRect].transform
@@ -552,6 +578,11 @@ export default {
         }
     },
     methods: {
+        addNewPreset(){
+            this.loadedPreset = null
+            this.$store.dispatch('rect/clearState');
+
+        },
         takeSelectedImage(index){
             this.dialog = false
             this.$store.dispatch('rect/changeElementBackgroundImage', {id: this.activeRect, image:index.src});
@@ -572,7 +603,7 @@ export default {
         },
         loadData:function(id){
             this.isLoading = true
-            
+            this.loadedPreset = id
             return fetch("http://localhost:3000/elements/"+id)
                 .then(res => res.json())
                 .then(res =>(this.$store.dispatch('rect/reloaddata', res)))

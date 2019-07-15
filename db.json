@@ -1,6 +1,7 @@
 {
     "clipartimages": [
-        { "id":0,"src": "/img/cliparts/1.jpg","filename":"1.jpg"}
+        { "id":0,"src": "/img/cliparts/1.jpg","filename":"1.jpg"},
+        { "id":1,"src": "/img/cliparts/sonne.png","filename":"sonne.png"}
     ],
     "backgroundimages": [
         { "id":0,"src": "/img/bg/no.png","filename":"no.png"},
@@ -35,12 +36,11 @@
                 "active": false,
                 "class":"text apply-font",
                 "text":"NEUER TEXT",
-               
+                "type": "text",
                 "style":{
                     "background-color": "#EF9A9A",
                     "background-image": "",
                     "background-size": "",
-                    
                     "font-size": "12px",
                     "font-family": "Comic Sans MS",
                     "color" :"#000000",
@@ -65,7 +65,7 @@
                 "snapToGrid": true,
                 "aspectRatio": false,
                 "zIndex": 2,
-             
+                "type": "text",
                 "active": false,
                 "class":"text",
                 "text":"NEUER TEXT13",

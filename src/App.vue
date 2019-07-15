@@ -22,7 +22,7 @@
             <v-btn block @click="addItem('imagebox913')" >Foto 9x13</v-btn>
             <v-btn block @click="addItem('imagebox139')" >Foto 13x9</v-btn>
             <v-btn block @click="addItem('clipart')" >Clipart</v-btn>
-{{activeEl}}
+
           </v-card>
         </v-flex>
         <v-flex xs6 offset-xs1 align-self-center style="position:relative">
@@ -72,7 +72,7 @@
                 :style="{'transform':rect.transform}"
                 :z="rect.zIndex"
                 v-on:activated="activateEv(index)"
-                v-on:deactivated="deactivateEv(index)"
+                
                 v-on:dragging="changePosition($event, index)"
                 v-on:resizing="changeSize($event, index)"
                 >
@@ -192,9 +192,9 @@ export default {
           this.$store.dispatch('rect/setActive', {id: index});
       },
 
-      deactivateEv(index) {
-          //this.$store.dispatch('rect/unsetActive', {id: index});
-      },
+      // deactivateEv(index) {
+      //     this.$store.dispatch('rect/unsetActive', {id: index});
+      // },
 
       changePosition(newRect, index) {
 
@@ -229,10 +229,11 @@ export default {
                 "aspectRatio": false,
                 "zIndex": 3,
                 "active": false,
+                "type": "text",
                 "class":"text",
                 "text":"Dein Text hier",
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "background-color": "transparent",
                     "font-size": "16px",
                     "color": "#000000",
                     "letter-spacing":"0em",
@@ -253,7 +254,7 @@ export default {
                 "draggable": true,
                 "resizable": true,
                 "minw": 100,
-                "minh": 60,
+                "minh": 59,
                 "axis": "both",
                 "parentLim": true,
                 "snapToGrid": true,
@@ -261,9 +262,10 @@ export default {
                 "zIndex": 4,
                 "active": false,
                 "class":"letterbox",
+                "type": "letterbox",
                 "text":"",
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "background-color": "transparent",
                     "font-size": "12px",
                     "color": "#000000",
                     "letter-spacing":"0em",
@@ -291,19 +293,20 @@ export default {
                 "parentLim": true,
                 "snapToGrid": true,
                 "aspectRatio": false,
+                "type": "imagebox",
                 "zIndex": 1,
                 "active": false,
                 "class":"imagebox913",
                 "text":"hier foto aufkleben",
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "background-color": "transparent",
                     "font-size": "12px",
                     "color": "#000000",
                     "letter-spacing":"0em",
                     "font-weight":400,
                     "font-style": "",
                     "text-decoration":"",
-                    "text-align": "left",
+                    "text-align": "center",
                     "width": "9cm",
                     "height": "13cm",
                     "padding-top" :'220px'
@@ -326,20 +329,22 @@ export default {
                 "axis": "both",
                 "parentLim": true,
                 "snapToGrid": true,
+           
+                "type": "imagebox",
                 "aspectRatio": false,
                 "zIndex": 1,
                 "active": false,
                 "class":"imagebox139",
                 "text":"hier foto aufkleben",
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "background-color": "transparent",
                     "font-size": "12px",
                     "color": "#000000",
                     "letter-spacing":"0em",
                     "font-weight":400,
                     "font-style": "",
                     "text-decoration":"",
-                    "text-align": "left",
+                    "text-align": "center",
                     "width": "13cm",
                     "height": "9cm",
                     "padding-top" :'150px'
@@ -367,10 +372,11 @@ export default {
                 "zIndex": 1,
                 "active": false,
                 "class":"clipart",
+                "type": "clipart",
                 "text":"",
                 "html":'',
                 "style":{
-                    "backgroundcolor": "rgba(21,21,21,.2)",
+                    "background-color": "rgba(21,21,21,.2)",
                     "background-image": "",
                     "background-size": "",
                     "font-size": "12px",
@@ -426,7 +432,7 @@ export default {
   font-size:.8rem;
 }
 .letterbox{
-  background:transparent url('img/box.png') repeat 0 0;
+  background:transparent url('./img/box.png') repeat 0 bottom;
 }
 .imagebox913{
   border:1px solid black;

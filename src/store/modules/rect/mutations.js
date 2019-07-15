@@ -35,7 +35,8 @@ import {
     CHANGE_TEXT,
     CHANGE_ELEMENT_BACKGROUNDCOLOR,
     CHANGE_FONT,
-    CHANGE_ELEMENT_BACKGROUND_IMAGE
+    CHANGE_ELEMENT_BACKGROUND_IMAGE,
+    CLEARSTATE
 } from './mutation-types';
 
 export default {
@@ -175,6 +176,16 @@ export default {
         state.rects.childs[payload.id].style['background-image'] = 'url("'+payload.image+'")'
         state.rects.childs[payload.id].style['background-size'] = 'contain'
     }, 
+    [CLEARSTATE](state) {
+        state.rects.childs = []
+        state.rects.page = {
+            "backgroundimageID":2,
+            "backgroundcolor": "#ffffff",
+            "backgroundimage": "no.png",
+            "opacity": "1"
+        }
+    }
+
     
 
 };
