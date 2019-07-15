@@ -34,7 +34,8 @@ import {
     CHANGE_FONTWEIGHT,
     CHANGE_TEXT,
     CHANGE_ELEMENT_BACKGROUNDCOLOR,
-    CHANGE_FONT
+    CHANGE_FONT,
+    CHANGE_ELEMENT_BACKGROUND_IMAGE
 } from './mutation-types';
 
 export default {
@@ -168,6 +169,11 @@ export default {
     },
     [CHANGE_FONT](state, payload) {
         state.rects.childs[payload.id].style['font-family'] = payload.font
+    }, 
+    [CHANGE_ELEMENT_BACKGROUND_IMAGE](state, payload) {
+        console.log(payload)
+        state.rects.childs[payload.id].style['background-image'] = 'url("'+payload.image+'")'
+        state.rects.childs[payload.id].style['background-size'] = 'contain'
     }, 
     
 

@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat @click="download">.pdf Download</v-btn>
+        <v-btn  @click="download" color="success" :disabled="activeEl != null ? true:false">.pdf Download</v-btn>
       </v-toolbar-items>
     </v-toolbar>
   <v-container>
@@ -22,11 +22,11 @@
             <v-btn block @click="addItem('imagebox913')" >Foto 9x13</v-btn>
             <v-btn block @click="addItem('imagebox139')" >Foto 13x9</v-btn>
             <v-btn block @click="addItem('clipart')" >Clipart</v-btn>
-
+{{activeEl}}
           </v-card>
         </v-flex>
         <v-flex xs6 offset-xs1 align-self-center style="position:relative">
-<div id="page">
+<div id="page" @dblclick="deactivateAll">
        <div id="ignoreElements">
             <v-btn
               absolute
@@ -39,7 +39,7 @@
               <v-icon>add</v-icon>
             </v-btn>
         </div>
-         <div class="a4"  :style="{    
+         <div class="a4" :style="{    
                     'background-color': page_background_color,
                     'opacity': 1
                   }">
@@ -59,7 +59,7 @@
                 :x="rect.left"
                 :y="rect.top"
                 :axis="rect.axis"
-                :snapToGrid="true"
+                snapToGrid="true"
                 :gridX="20"
                 :gridY="20"
                 :isActive="rect.active"
@@ -68,17 +68,16 @@
                 :isDraggable="rect.draggable"
                 :isResizable="rect.resizable"
                 :parentLimitation="rect.parentLim"
-                
                 :aspectRatio="rect.aspectRatio"
-                
+                :style="{'transform':rect.transform}"
                 :z="rect.zIndex"
                 v-on:activated="activateEv(index)"
                 v-on:deactivated="deactivateEv(index)"
                 v-on:dragging="changePosition($event, index)"
                 v-on:resizing="changeSize($event, index)"
                 >
-                <div :class="rect.class +' filler'" :style="rect.style"> 
-                  {{rect.text}}
+                <div :class="rect.class +' filler'" :style="rect.style" > 
+                 {{rect.text}}
                 </div>
 
                 
@@ -127,6 +126,9 @@ export default {
 
 
   computed: {
+      activeEl(){
+          return this.$store.getters['rect/getActive']
+      },
       rects() {
           return this.$store.state.rect.rects.childs
       },
@@ -142,7 +144,15 @@ export default {
   },
 
   methods: {
+      deactivateAll(){
+        if(this.activeEl !== null){
+          this.$store.dispatch('rect/unsetActive', {id: this.activeEl});
+        }
+ 
+      },
       async download () {
+       
+        
           this.isLoading = true
            await html2canvas(document.querySelector('#page'), {
             imageTimeout: 5000,
@@ -173,7 +183,9 @@ export default {
             pdf.save('relatorio-remoto.pdf')
             document.getElementById('pdf').innerHTML = ''
             this.isLoading = false
+           
           })
+       
       },
 
       activateEv(index) {
@@ -181,7 +193,7 @@ export default {
       },
 
       deactivateEv(index) {
-          this.$store.dispatch('rect/unsetActive', {id: index});
+          //this.$store.dispatch('rect/unsetActive', {id: index});
       },
 
       changePosition(newRect, index) {
@@ -355,20 +367,19 @@ export default {
                 "zIndex": 1,
                 "active": false,
                 "class":"clipart",
-                "text":"clipart",
+                "text":"",
+                "html":'',
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "backgroundcolor": "rgba(21,21,21,.2)",
+                    "background-image": "",
+                    "background-size": "",
                     "font-size": "12px",
                     "color": "#000000",
                     "letter-spacing":"0em",
                     "font-weight":400,
                     "font-style": "",
                     "text-decoration":"",
-                    "text-align": "left",
-                    "width": "13cm",
-                    "height": "9cm",
-                    "padding-top" :'150px'
-                    
+                    "text-align": "left",                   
                 }
               }
               this.$store.dispatch('rect/addElement', {data:element});

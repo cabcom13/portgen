@@ -5,8 +5,8 @@
     "backgroundimages": [
         { "id":0,"src": "/img/bg/no.png","filename":"no.png"},
         { "id":1,"src": "/img/bg/flower.png","filename":"flower.png"},
-        { "id":2,"src": "/img/bg/flower1.png","filename":"flower1.png"},
-        { "id":3,"src": "/img/bg/test.jpg","filename":"test.jpg"}
+        { "id":2,"src": "/img/bg/flower1.png","filename":"flower1.png"}
+        
     ],
     "elements": [
       { "id": 0,
@@ -31,13 +31,16 @@
                 "snapToGrid": true,
                 "aspectRatio": false,
                 "zIndex": 3,
-          
+                "transform": "rotate(20deg)",
                 "active": false,
                 "class":"text apply-font",
                 "text":"NEUER TEXT",
                
                 "style":{
                     "background-color": "#EF9A9A",
+                    "background-image": "",
+                    "background-size": "",
+                    
                     "font-size": "12px",
                     "font-family": "Comic Sans MS",
                     "color" :"#000000",
@@ -69,6 +72,8 @@
                
                 "style":{
                     "background-color": "#EF9A4A",
+                    "background-image": "",
+                    "background-size": "",
                     "color" :"#000000",
                     "font-size": "12px",
                     "letter-spacing":"0em",
@@ -97,6 +102,8 @@
             "active":false,
             "style":{
                 "color": "#000000",
+                "background-image": "",
+                "background-size": "",
                 "font-size": "16px",
                 "letter-spacing":"0em",
                 "font-weight":400,
