@@ -22,7 +22,7 @@ export default {
                 "snapToGrid": true,
                 "aspectRatio": false,
                 "zIndex": 3,
-          
+                "type": "text",
                 "active": false,
                 "class":"text",
                 "text":"NEUER TEXT",
@@ -53,7 +53,7 @@ export default {
                 "snapToGrid": true,
                 "aspectRatio": false,
                 "zIndex": 2,
-             
+                "type": "text",
                 "active": false,
                 "class":"text",
                 "text":"NEUER TEXT13",

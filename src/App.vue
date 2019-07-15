@@ -7,7 +7,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat @click="download">.pdf Download</v-btn>
+        <v-btn  @click="download" color="success" :disabled="activeEl != null ? true:false">.pdf Download</v-btn>
       </v-toolbar-items>
     </v-toolbar>
   <v-container>
@@ -26,7 +26,7 @@
           </v-card>
         </v-flex>
         <v-flex xs6 offset-xs1 align-self-center style="position:relative">
-<div id="page">
+<div id="page" @dblclick="deactivateAll">
        <div id="ignoreElements">
             <v-btn
               absolute
@@ -39,7 +39,7 @@
               <v-icon>add</v-icon>
             </v-btn>
         </div>
-         <div class="a4"  :style="{    
+         <div class="a4" :style="{    
                     'background-color': page_background_color,
                     'opacity': 1
                   }">
@@ -59,7 +59,7 @@
                 :x="rect.left"
                 :y="rect.top"
                 :axis="rect.axis"
-                :snapToGrid="true"
+                snapToGrid="true"
                 :gridX="20"
                 :gridY="20"
                 :isActive="rect.active"
@@ -68,17 +68,16 @@
                 :isDraggable="rect.draggable"
                 :isResizable="rect.resizable"
                 :parentLimitation="rect.parentLim"
-                
                 :aspectRatio="rect.aspectRatio"
-                
+                :style="{'transform':rect.transform}"
                 :z="rect.zIndex"
                 v-on:activated="activateEv(index)"
-                v-on:deactivated="deactivateEv(index)"
+                
                 v-on:dragging="changePosition($event, index)"
                 v-on:resizing="changeSize($event, index)"
                 >
-                <div :class="rect.class +' filler'" :style="rect.style"> 
-                  {{rect.text}}
+                <div :class="rect.class +' filler'" :style="rect.style" > 
+                 {{rect.text}}
                 </div>
 
                 
@@ -127,6 +126,9 @@ export default {
 
 
   computed: {
+      activeEl(){
+          return this.$store.getters['rect/getActive']
+      },
       rects() {
           return this.$store.state.rect.rects.childs
       },
@@ -142,7 +144,15 @@ export default {
   },
 
   methods: {
+      deactivateAll(){
+        if(this.activeEl !== null){
+          this.$store.dispatch('rect/unsetActive', {id: this.activeEl});
+        }
+ 
+      },
       async download () {
+       
+        
           this.isLoading = true
            await html2canvas(document.querySelector('#page'), {
             imageTimeout: 5000,
@@ -173,16 +183,18 @@ export default {
             pdf.save('relatorio-remoto.pdf')
             document.getElementById('pdf').innerHTML = ''
             this.isLoading = false
+           
           })
+       
       },
 
       activateEv(index) {
           this.$store.dispatch('rect/setActive', {id: index});
       },
 
-      deactivateEv(index) {
-          this.$store.dispatch('rect/unsetActive', {id: index});
-      },
+      // deactivateEv(index) {
+      //     this.$store.dispatch('rect/unsetActive', {id: index});
+      // },
 
       changePosition(newRect, index) {
 
@@ -217,10 +229,11 @@ export default {
                 "aspectRatio": false,
                 "zIndex": 3,
                 "active": false,
+                "type": "text",
                 "class":"text",
                 "text":"Dein Text hier",
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "background-color": "transparent",
                     "font-size": "16px",
                     "color": "#000000",
                     "letter-spacing":"0em",
@@ -241,7 +254,7 @@ export default {
                 "draggable": true,
                 "resizable": true,
                 "minw": 100,
-                "minh": 60,
+                "minh": 59,
                 "axis": "both",
                 "parentLim": true,
                 "snapToGrid": true,
@@ -249,9 +262,10 @@ export default {
                 "zIndex": 4,
                 "active": false,
                 "class":"letterbox",
+                "type": "letterbox",
                 "text":"",
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "background-color": "transparent",
                     "font-size": "12px",
                     "color": "#000000",
                     "letter-spacing":"0em",
@@ -279,19 +293,20 @@ export default {
                 "parentLim": true,
                 "snapToGrid": true,
                 "aspectRatio": false,
+                "type": "imagebox",
                 "zIndex": 1,
                 "active": false,
                 "class":"imagebox913",
                 "text":"hier foto aufkleben",
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "background-color": "transparent",
                     "font-size": "12px",
                     "color": "#000000",
                     "letter-spacing":"0em",
                     "font-weight":400,
                     "font-style": "",
                     "text-decoration":"",
-                    "text-align": "left",
+                    "text-align": "center",
                     "width": "9cm",
                     "height": "13cm",
                     "padding-top" :'220px'
@@ -314,20 +329,22 @@ export default {
                 "axis": "both",
                 "parentLim": true,
                 "snapToGrid": true,
+           
+                "type": "imagebox",
                 "aspectRatio": false,
                 "zIndex": 1,
                 "active": false,
                 "class":"imagebox139",
                 "text":"hier foto aufkleben",
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "background-color": "transparent",
                     "font-size": "12px",
                     "color": "#000000",
                     "letter-spacing":"0em",
                     "font-weight":400,
                     "font-style": "",
                     "text-decoration":"",
-                    "text-align": "left",
+                    "text-align": "center",
                     "width": "13cm",
                     "height": "9cm",
                     "padding-top" :'150px'
@@ -355,20 +372,20 @@ export default {
                 "zIndex": 1,
                 "active": false,
                 "class":"clipart",
-                "text":"clipart",
+                "type": "clipart",
+                "text":"",
+                "html":'',
                 "style":{
-                    "backgroundcolor": "transparent",
+                    "background-color": "rgba(21,21,21,.2)",
+                    "background-image": "",
+                    "background-size": "",
                     "font-size": "12px",
                     "color": "#000000",
                     "letter-spacing":"0em",
                     "font-weight":400,
                     "font-style": "",
                     "text-decoration":"",
-                    "text-align": "left",
-                    "width": "13cm",
-                    "height": "9cm",
-                    "padding-top" :'150px'
-                    
+                    "text-align": "left",                   
                 }
               }
               this.$store.dispatch('rect/addElement', {data:element});
@@ -415,7 +432,7 @@ export default {
   font-size:.8rem;
 }
 .letterbox{
-  background:transparent url('img/box.png') repeat 0 0;
+  background:transparent url('./img/box.png') repeat 0 bottom;
 }
 .imagebox913{
   border:1px solid black;

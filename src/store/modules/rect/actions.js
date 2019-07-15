@@ -1,6 +1,13 @@
 import types, {CHANGE_ZINDEX} from './mutation-types';
 
 export default {
+    clearState({commit}){
+        
+        commit(types.CLEARSTATE);
+    },
+    changeElementBackgroundImage({commit}, payLoad){
+        commit(types.CHANGE_ELEMENT_BACKGROUND_IMAGE, payLoad);
+    },
     changeFont({commit}, payLoad){
         commit(types.CHANGE_FONT, payLoad);
     },
