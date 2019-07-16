@@ -1,7 +1,40 @@
 <template>
 <div  @mousedown.stop>
+{{loadedPreset}}
+
+  <v-dialog v-model="newPreset_dialog" persistent max-width="600px" light>
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">Neue Vorlage erstellen</v-btn>
+      </template>
+      <v-card>
+        <v-card-title>
+          <span class="headline">Neue Vorlage anlegen</span>
+        </v-card-title>
+        <v-card-text>
+    <v-layout wrap align-center>
+        <v-flex xs12 sm12 d-flex>
+            <v-select
+            light
+            :items="items"
+            v-model="selectedCategory"
+            label="Kategorie"
+            ></v-select>
+        </v-flex>
+        <v-flex xs12 sm12 d-flex>
+            <v-text-field light v-model="newPresetName" label="Bezeichnung / Title / Name" placeholder="z.b. Ich kann alleine ..."> </v-text-field>
+        </v-flex>
+    </v-layout>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click="newPreset_dialog = false">Abbrechen</v-btn>
+          <v-btn color="success" :disabled="newPresetName == null || selectedCategory == null"  @click="addNewPreset">Weiter</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
 
+<v-btn color="pink" :disabled="loadedPreset != null ? false: true">Speichern</v-btn>
         <v-expansion-panel dark focusable>
 
             <v-expansion-panel-content ripple expand true>
@@ -12,7 +45,7 @@
                 <v-list>
                 <v-list-group
                     v-for="item in items"
-                    :key="item.title"
+                    :key="item.value"
                     v-model="item.active"
                   
                     no-action
@@ -20,12 +53,11 @@
                     <template v-slot:activator>
                         <v-list-tile>
                             <v-list-tile-content>
-                            <v-list-tile-title ripple>{{ item.title }}</v-list-tile-title>
+                            <v-list-tile-title ripple>{{ item.text }}</v-list-tile-title>
                             </v-list-tile-content>
                         </v-list-tile>
                     </template>
                         <ul class="slim_list">
-                            <li @click="addNewPreset()">Neue Vorlage erstellen</li>
                             <li v-ripple :class="loadedPreset == subItem.id?'active':''" v-for="subItem in item.items" :key="subItem.id" @click="loadData(subItem.id)">{{ subItem.title }}</li>
                         </ul>
           
@@ -303,34 +335,16 @@ export default {
         dataImages:[],
         clipartImages:[],
         loadedPreset:null,
+        newPreset_dialog:false,
+        selectedCategory:null,
+        newPresetName: null,
         dialog: false,
         owncolors:[
             'transparent','#000000','#1FBC9C','#1CA085','#2ECC70','#27AF60','#3398DB','#2980B9','#A463BF','#8E43AD','#3D556E','#222F3D','#F2C511','#F39C19','#E84B3C','#C0382B','#DDE6E8','#BDC3C8','#FFFFFF'
         ],
         isLoading: false,
         initialSelected:[],
-        items: [
-  
-            {
-              action: 'restaurant',
-              title: 'Dining',
-              active: true,
-              items: [
-                { 
-                  id:0,
-                  title: 'Breakfast & brunch',
-                  value:'fav'  
-                },
-                { 
-                  id:1,
-                  title: 'New American',
-                  value:'index'
-                },
-              
-              ]
-            }
-            
-          ]
+        items: []
     }),
     async created() {
        
@@ -344,6 +358,13 @@ export default {
         try{
             const res = await axios.get('http://localhost:3000/clipartimages')
             this.clipartImages = res.data
+            this.isLoading = false
+        } catch(e){
+                
+        }
+        try{
+            const res = await axios.get('http://localhost:3000/presets')
+            this.items = res.data
             this.isLoading = false
         } catch(e){
                 
@@ -580,6 +601,8 @@ export default {
     methods: {
         addNewPreset(){
             this.loadedPreset = null
+            this.newPreset_dialog = false
+            console.log(this.selectedCategory, this.newPresetName)
             this.$store.dispatch('rect/clearState');
 
         },

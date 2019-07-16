@@ -1,4 +1,34 @@
 {
+    "presets": [
+        {
+                "value":0,
+                "text": "Slim Edition",
+                "active": true,
+                "items": [
+                    { 
+                        "id":0,
+                        "title": "ich kann alleine",
+                        "elementID":0
+                    },
+                    { 
+                        "id":1,
+                        "title": "Wir backen",
+                        "elementID":1
+                    }
+                
+                ]
+            },
+            {
+                "value": 1,
+                "text": "Sommer Edition",
+                "active": false,
+                "items": []   
+            }
+
+        
+
+    ],
+
     "clipartimages": [
         { "id":0,"src": "/img/cliparts/1.jpg","filename":"1.jpg"},
         { "id":1,"src": "/img/cliparts/sonne.png","filename":"sonne.png"}
