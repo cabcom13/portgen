@@ -17,11 +17,11 @@
         <v-flex xs1>
           <v-card>
  
-            <v-btn block @click="addItem('text')" >Text</v-btn>
-            <v-btn block @click="addItem('letterbox')" >Schreibfeld</v-btn>
-            <v-btn block @click="addItem('imagebox913')" >Foto 9x13</v-btn>
-            <v-btn block @click="addItem('imagebox139')" >Foto 13x9</v-btn>
-            <v-btn block @click="addItem('clipart')" >Clipart</v-btn>
+            <v-btn :disabled="loadedpreset == null ? true: false" block @click="addItem('text')" >Text</v-btn>
+            <v-btn :disabled="loadedpreset == null ? true: false" block @click="addItem('letterbox')" >Schreibfeld</v-btn>
+            <v-btn :disabled="loadedpreset == null ? true: false" block @click="addItem('imagebox913')" >Foto 9x13</v-btn>
+            <v-btn :disabled="loadedpreset == null ? true: false" block @click="addItem('imagebox139')" >Foto 13x9</v-btn>
+            <v-btn :disabled="loadedpreset == null ? true: false" block @click="addItem('clipart')" >Clipart</v-btn>
 
           </v-card>
         </v-flex>
@@ -126,6 +126,11 @@ export default {
 
 
   computed: {
+    loadedpreset(){
+      return this.$store.state.editor.loadedPresetID
+     
+    },
+
       activeEl(){
           return this.$store.getters['rect/getActive']
       },

@@ -1,6 +1,5 @@
 <template>
 <div  @mousedown.stop>
-{{loadedPreset}}
 
   <v-dialog v-model="newPreset_dialog" persistent max-width="600px" light>
       <template v-slot:activator="{ on }">
@@ -334,7 +333,7 @@ export default {
         fontfamilys:['Amatic SC', 'Satisfy', 'Permanent Marker', 'Architects Daughter', 'Handlee'],
         dataImages:[],
         clipartImages:[],
-        loadedPreset:null,
+
         newPreset_dialog:false,
         selectedCategory:null,
         newPresetName: null,
@@ -378,6 +377,9 @@ export default {
         window.removeEventListener('keydown', this.onkey)
     },
     computed: {
+        loadedPreset(){
+            return this.$store.state.editor.loadedPresetID
+        },
         recttype(){
             return this.activeRect === null ? 0 : this.$store.state.rect.rects.childs[this.activeRect].type
         },
@@ -600,7 +602,9 @@ export default {
     },
     methods: {
         addNewPreset(){
-            this.loadedPreset = null
+ 
+            this.$store.dispatch('editor/setloadedPreset',null);
+
             this.newPreset_dialog = false
             console.log(this.selectedCategory, this.newPresetName)
             this.$store.dispatch('rect/clearState');
@@ -626,7 +630,9 @@ export default {
         },
         loadData:function(id){
             this.isLoading = true
-            this.loadedPreset = id
+                
+            this.$store.dispatch('editor/setloadedPreset',{id});
+
             return fetch("http://localhost:3000/elements/"+id)
                 .then(res => res.json())
                 .then(res =>(this.$store.dispatch('rect/reloaddata', res)))
