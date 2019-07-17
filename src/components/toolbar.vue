@@ -12,12 +12,13 @@
         <v-card-text>
     <v-layout wrap align-center>
         <v-flex xs12 sm12 d-flex>
-            <v-select
+            {{items}}
+            <!-- <v-select
             light
             :items="items"
             v-model="selectedCategory"
             label="Kategorie"
-            ></v-select>
+            ></v-select> -->
         </v-flex>
         <v-flex xs12 sm12 d-flex>
             <v-text-field light v-model="newPresetName" label="Bezeichnung / Title / Name" placeholder="z.b. Ich kann alleine ..."> </v-text-field>
@@ -33,7 +34,7 @@
     </v-dialog>
 
 
-<v-btn color="pink" :disabled="loadedPreset != null ? false: true">Speichern</v-btn>
+<v-btn color="pink" :disabled="loadedPreset != null ? false: true" @click="save">Speichern</v-btn>
         <v-expansion-panel dark focusable>
 
             <v-expansion-panel-content ripple expand true>
@@ -281,8 +282,6 @@
             </v-expansion-panel-content>
 
         </v-expansion-panel>
-
-
 </div>
 </template>
 <style scope>
@@ -363,6 +362,7 @@ export default {
         }
         try{
             const res = await axios.get('http://localhost:3000/presets')
+            console.log(res.data)
             this.items = res.data
             this.isLoading = false
         } catch(e){
@@ -601,9 +601,22 @@ export default {
         }
     },
     methods: {
+        save(){
+
+                axios.post(`http://localhost:3000/elements/${this.$store.state.editor.loadedPresetID}`, {
+                    id:this.$store.state.editor.loadedPresetID,
+                    data:this.$store.state.rect.rects.childs
+                })
+                .then(response => {})
+                .catch(e => {
+                    this.errors.push(e)
+                })
+
+          
+        },
         addNewPreset(){
- 
-            this.$store.dispatch('editor/setloadedPreset',null);
+            let id = 'new'
+            this.$store.dispatch('editor/setloadedPreset',{id});
 
             this.newPreset_dialog = false
             console.log(this.selectedCategory, this.newPresetName)

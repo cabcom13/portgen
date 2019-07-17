@@ -4,7 +4,6 @@ import {
 
 export default {
     [LOADED_PRESET](state, id) {
-      
         state.loadedPresetID = id;
     }
 

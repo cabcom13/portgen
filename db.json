@@ -1,152 +1,166 @@
 {
-    "presets": [
+  "presets": [
+    {
+      "id": 0,
+      "value": 0,
+      "text": "Slim Edition",
+      "active": true,
+      "items": [
         {
-                "value":0,
-                "text": "Slim Edition",
-                "active": true,
-                "items": [
-                    { 
-                        "id":0,
-                        "title": "ich kann alleine",
-                        "elementID":0
-                    },
-                    { 
-                        "id":1,
-                        "title": "Wir backen",
-                        "elementID":1
-                    }
-                
-                ]
-            },
-            {
-                "value": 1,
-                "text": "Sommer Edition",
-                "active": false,
-                "items": []   
-            }
-
-        
-
-    ],
-
-    "clipartimages": [
-        { "id":0,"src": "/img/cliparts/1.jpg","filename":"1.jpg"},
-        { "id":1,"src": "/img/cliparts/sonne.png","filename":"sonne.png"}
-    ],
-    "backgroundimages": [
-        { "id":0,"src": "/img/bg/no.png","filename":"no.png"},
-        { "id":1,"src": "/img/bg/flower.png","filename":"flower.png"},
-        { "id":2,"src": "/img/bg/flower1.png","filename":"flower1.png"}
-        
-    ],
-    "elements": [
-      { "id": 0,
-        "page":{
-            "backgroundimage": "flower1.png",
-            "backgroundimageID":2,
-            "backgroundcolor": "#f2ffe8",
-            "opacity": ".7"
+          "id": 0,
+          "title": "ich kann alleine",
+          "elementID": 0
         },
-        "childs": [
-            {
-                "width": 200,
-                "height": 21,
-                "top": 170,
-                "left": 10,
-                "draggable": true,
-                "resizable": true,
-                "minw": 10,
-                "minh": 10,
-                "axis": "both",
-                "parentLim": true,
-                "snapToGrid": true,
-                "aspectRatio": false,
-                "zIndex": 3,
-                "transform": "rotate(20deg)",
-                "active": false,
-                "class":"text apply-font",
-                "text":"NEUER TEXT",
-                "type": "text",
-                "style":{
-                    "background-color": "#EF9A9A",
-                    "background-image": "",
-                    "background-size": "",
-                    "font-size": "12px",
-                    "font-family": "Comic Sans MS",
-                    "color" :"#000000",
-                    "letter-spacing":"0em",
-                    "font-weight":800,
-                    "font-style": "",
-                    "text-decoration":"",
-                    "text-align": "center"
-                }
-            },
-            {
-                "width": 300,
-                "height": 250,
-                "top": 370,
-                "left": 300,
-                "draggable": true,
-                "resizable": true,
-                "minw": 10,
-                "minh": 10,
-                "axis": "both",
-                "parentLim": true,
-                "snapToGrid": true,
-                "aspectRatio": false,
-                "zIndex": 2,
-                "type": "text",
-                "active": false,
-                "class":"text",
-                "text":"NEUER TEXT13",
-               
-                "style":{
-                    "background-color": "#EF9A4A",
-                    "background-image": "",
-                    "background-size": "",
-                    "color" :"#000000",
-                    "font-size": "12px",
-                    "letter-spacing":"0em",
-                    "font-weight":400,
-                    "font-style": "",
-                    "text-decoration":"",
-                    "text-align": "left"
-                }
-            }
-    
-    ]
+        {
+          "id": 1,
+          "title": "Wir backen",
+          "elementID": 1
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "value": 1,
+      "text": "Sommer Edition",
+      "active": false,
+      "items": []
+    }
+  ],
+  "clipartimages": [
+    {
+      "id": 0,
+      "src": "/img/cliparts/1.jpg",
+      "filename": "1.jpg"
+    },
+    {
+      "id": 1,
+      "src": "/img/cliparts/sonne.png",
+      "filename": "sonne.png"
+    }
+  ],
+  "backgroundimages": [
+    {
+      "id": 0,
+      "src": "/img/bg/no.png",
+      "filename": "no.png"
+    },
+    {
+      "id": 1,
+      "src": "/img/bg/flower.png",
+      "filename": "flower.png"
+    },
+    {
+      "id": 2,
+      "src": "/img/bg/flower1.png",
+      "filename": "flower1.png"
+    }
+  ],
+  "elements": [
+    {
+      "id": 0,
+      "page": {
+        "backgroundimage": "flower1.png",
+        "backgroundimageID": 2,
+        "backgroundcolor": "#f2ffe8",
+        "opacity": ".7"
       },
-      { "id": 1,
-        "page": {
-            "background":"#ffffff",
-            "backgroundimage":"flower.png",
-            "backgroundOpacity":".2"
-        }, "childs": [{
-            "height":80,
-            "width":500,
-            "class":"text",
-            "resizable":true,
-            "text":"NEUER TEXT",
-            "y":100,
-            "x":200,
-            "active":false,
-            "style":{
-                "color": "#000000",
-                "background-image": "",
-                "background-size": "",
-                "font-size": "16px",
-                "letter-spacing":"0em",
-                "font-weight":400,
-                "font-style": "",
-                "text-decoration":"",
-                "text-align": "left"
-            }
-        }]
-      }
-    ]
-   
-  }
-
-
-
-
+      "childs": [
+        {
+          "width": 200,
+          "height": 21,
+          "top": 170,
+          "left": 10,
+          "draggable": true,
+          "resizable": true,
+          "minw": 10,
+          "minh": 10,
+          "axis": "both",
+          "parentLim": true,
+          "snapToGrid": true,
+          "aspectRatio": false,
+          "zIndex": 3,
+          "transform": "rotate(20deg)",
+          "active": false,
+          "class": "text apply-font",
+          "text": "NEUER TEXT",
+          "type": "text",
+          "style": {
+            "background-color": "#EF9A9A",
+            "background-image": "",
+            "background-size": "",
+            "font-size": "12px",
+            "font-family": "Comic Sans MS",
+            "color": "#000000",
+            "letter-spacing": "0em",
+            "font-weight": 800,
+            "font-style": "",
+            "text-decoration": "",
+            "text-align": "center"
+          }
+        },
+        {
+          "width": 300,
+          "height": 250,
+          "top": 370,
+          "left": 300,
+          "draggable": true,
+          "resizable": true,
+          "minw": 10,
+          "minh": 10,
+          "axis": "both",
+          "parentLim": true,
+          "snapToGrid": true,
+          "aspectRatio": false,
+          "zIndex": 2,
+          "type": "text",
+          "active": false,
+          "class": "text",
+          "text": "NEUER TEXT13",
+          "style": {
+            "background-color": "#EF9A4A",
+            "background-image": "",
+            "background-size": "",
+            "color": "#000000",
+            "font-size": "12px",
+            "letter-spacing": "0em",
+            "font-weight": 400,
+            "font-style": "",
+            "text-decoration": "",
+            "text-align": "left"
+          }
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "page": {
+        "background": "#ffffff",
+        "backgroundimage": "flower.png",
+        "backgroundOpacity": ".2"
+      },
+      "childs": [
+        {
+          "height": 80,
+          "width": 500,
+          "class": "text",
+          "resizable": true,
+          "text": "NEUER TEXT",
+          "y": 100,
+          "x": 200,
+          "active": false,
+          "style": {
+            "color": "#000000",
+            "background-image": "",
+            "background-size": "",
+            "font-size": "16px",
+            "letter-spacing": "0em",
+            "font-weight": 400,
+            "font-style": "",
+            "text-decoration": "",
+            "text-align": "left"
+          }
+        }
+      ]
+    }
+  ]
+}
