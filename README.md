@@ -25,5 +25,7 @@ npm run test
 npm run lint
 ```
 
-### Run Json Server
-json-server db.json --watch
+### Run Lumen Server (API)
+php -S localhost:3000 -t public
+
+MySQL Server from Xamp 127.0.0.1
