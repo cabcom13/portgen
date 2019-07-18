@@ -12,7 +12,7 @@
 */
 
 $router->get('/', function () use ($router) {
-   
+   echo 'asdasd';
 });
 
 $router->get('/presets', function () use ($router) {

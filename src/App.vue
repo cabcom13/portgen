@@ -48,6 +48,7 @@
                   :style="{   
                     'background-position': '0 0 ',
                     'background-repeat': 'no-repeat',
+                    'background-size': 'cover!important',
                     'background':'transparent url(./img/bg/'+ page_background_image + ')',
                     'opacity': page_background_image_opacity
                   }"></div>
