@@ -13,12 +13,12 @@
     <v-layout wrap align-center>
         <v-flex xs12 sm12 d-flex>
             {{items}}
-            <!-- <v-select
+             <v-select
             light
             :items="items"
             v-model="selectedCategory"
             label="Kategorie"
-            ></v-select> -->
+            ></v-select> 
         </v-flex>
         <v-flex xs12 sm12 d-flex>
             <v-text-field light v-model="newPresetName" label="Bezeichnung / Title / Name" placeholder="z.b. Ich kann alleine ..."> </v-text-field>
@@ -58,7 +58,7 @@
                         </v-list-tile>
                     </template>
                         <ul class="slim_list">
-                            <li v-ripple :class="loadedPreset == subItem.id?'active':''" v-for="subItem in item.items" :key="subItem.id" @click="loadData(subItem.id)">{{ subItem.title }}</li>
+                            <li v-ripple :class="loadedPreset == subItem.id?'active':''" v-for="subItem in item.items" :key="subItem.id" @click="loadData(subItem.elementID)">{{ subItem.title }}</li>
                         </ul>
           
                 </v-list-group>
@@ -347,21 +347,21 @@ export default {
     async created() {
        
         try{
-            const res = await axios.get('http://localhost:3000/backgroundimages')
+            const res = await axios.get('http://localhost:3001/backgroundimages')
             this.dataImages = res.data
             this.isLoading = false
         } catch(e){
                
         }
         try{
-            const res = await axios.get('http://localhost:3000/clipartimages')
+            const res = await axios.get('http://localhost:3001/clipartimages')
             this.clipartImages = res.data
             this.isLoading = false
         } catch(e){
                 
         }
         try{
-            const res = await axios.get('http://localhost:3000/presets')
+            const res = await axios.get('http://localhost:3001/presets')
             console.log(res.data)
             this.items = res.data
             this.isLoading = false
@@ -603,7 +603,7 @@ export default {
     methods: {
         save(){
 
-                axios.post(`http://localhost:3000/elements/${this.$store.state.editor.loadedPresetID}`, {
+                axios.post(`http://localhost:3001/elements/${this.$store.state.editor.loadedPresetID}`, {
                     id:this.$store.state.editor.loadedPresetID,
                     data:this.$store.state.rect.rects.childs
                 })
@@ -646,7 +646,7 @@ export default {
                 
             this.$store.dispatch('editor/setloadedPreset',{id});
 
-            return fetch("http://localhost:3000/elements/"+id)
+            return fetch("http://localhost:3001/elements/"+id)
                 .then(res => res.json())
                 .then(res =>(this.$store.dispatch('rect/reloaddata', res)))
                 .then(this.isLoading = false);
