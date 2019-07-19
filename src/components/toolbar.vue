@@ -603,8 +603,9 @@ export default {
     methods: {
         save(){
 
-                axios.post(`http://localhost:3001/elements/${this.$store.state.editor.loadedPresetID}`, {
+                axios.post(`http://localhost:3001/elements`, {
                     id:this.$store.state.editor.loadedPresetID,
+                    page:this.$store.state.rect.rects.page,
                     data:this.$store.state.rect.rects.childs
                 })
                 .then(response => {})

@@ -83,13 +83,14 @@ $router->get('/backgroundimages', function () use ($router) {
 
 });
 
-$router->post('/elements/{id}', function ($id) use ($router) {
-    print_r($id);
-});
+$router->post('/elements', 'ExampleController@save');
 $router->get('/elements1', function () use ($router) {
      $results = app('db')->select("SELECT * FROM elements");
         $x = json_decode($results[0]->childs);
-     return response()->json($x);
+     
+        return response()->json($x);
+
+
 
 });
 

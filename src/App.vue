@@ -46,7 +46,7 @@
  
                   <div class="filler" 
                   :style="{   
-                    'background-position': '0 0 ',
+                    'background-position': '0 0',
                     'background-repeat': 'no-repeat',
                     'background-size': 'cover!important',
                     'background':'transparent url(./img/bg/'+ page_background_image + ')',
