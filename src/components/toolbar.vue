@@ -12,13 +12,17 @@
         <v-card-text>
     <v-layout wrap align-center>
         <v-flex xs12 sm12 d-flex>
-            {{items}}
+            
              <v-select
             light
             :items="items"
+            item-value="id"
+            item-text="text"
             v-model="selectedCategory"
             label="Kategorie"
+            return-object
             ></v-select> 
+ 
         </v-flex>
         <v-flex xs12 sm12 d-flex>
             <v-text-field light v-model="newPresetName" label="Bezeichnung / Title / Name" placeholder="z.b. Ich kann alleine ..."> </v-text-field>
@@ -58,7 +62,7 @@
                         </v-list-tile>
                     </template>
                         <ul class="slim_list">
-                            <li v-ripple :class="loadedPreset == subItem.id?'active':''" v-for="subItem in item.items" :key="subItem.id" @click="loadData(subItem.elementID)">{{ subItem.title }}</li>
+                            <li v-ripple :class="loadedPreset == subItem.id?'active':''" v-for="subItem in item.items" :key="subItem.id" @click="loadData(subItem.id)">{{ subItem.title }}</li>
                         </ul>
           
                 </v-list-group>
@@ -282,6 +286,22 @@
             </v-expansion-panel-content>
 
         </v-expansion-panel>
+<v-snackbar
+      v-model="snackbar"
+      :timeout="3000"
+      top="top"
+      color="success"
+    >
+      {{ snackbartext }}
+      <v-btn
+        color="pink"
+        flat
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+
 </div>
 </template>
 <style scope>
@@ -332,10 +352,12 @@ export default {
         fontfamilys:['Amatic SC', 'Satisfy', 'Permanent Marker', 'Architects Daughter', 'Handlee'],
         dataImages:[],
         clipartImages:[],
-
+        snackbar:false,
+        snackbartext: '',
         newPreset_dialog:false,
         selectedCategory:null,
         newPresetName: null,
+        errors:[],
         dialog: false,
         owncolors:[
             'transparent','#000000','#1FBC9C','#1CA085','#2ECC70','#27AF60','#3398DB','#2980B9','#A463BF','#8E43AD','#3D556E','#222F3D','#F2C511','#F39C19','#E84B3C','#C0382B','#DDE6E8','#BDC3C8','#FFFFFF'
@@ -344,7 +366,7 @@ export default {
         initialSelected:[],
         items: []
     }),
-    async created() {
+    async beforeCreate() {
        
         try{
             const res = await axios.get('http://localhost:3001/backgroundimages')
@@ -362,7 +384,6 @@ export default {
         }
         try{
             const res = await axios.get('http://localhost:3001/presets')
-            console.log(res.data)
             this.items = res.data
             this.isLoading = false
         } catch(e){
@@ -601,27 +622,64 @@ export default {
         }
     },
     methods: {
+        deactivateAll(){
+            if(this.activeRect !== null){
+            this.$store.dispatch('rect/unsetActive', {id: this.activeRect});
+            }
+    
+        },
         save(){
-
+                this.deactivateAll()
                 axios.post(`http://localhost:3001/elements`, {
                     id:this.$store.state.editor.loadedPresetID,
                     page:this.$store.state.rect.rects.page,
                     data:this.$store.state.rect.rects.childs
                 })
-                .then(response => {})
-                .catch(e => {
-                    this.errors.push(e)
+                .then(response =>{
+                    if(response.data.status){
+                        this.snackbartext = response.data.text
+                        this.snackbar = true;
+                    }
                 })
+                
 
           
         },
         addNewPreset(){
-            let id = 'new'
-            this.$store.dispatch('editor/setloadedPreset',{id});
 
-            this.newPreset_dialog = false
-            console.log(this.selectedCategory, this.newPresetName)
-            this.$store.dispatch('rect/clearState');
+                axios.post(`http://localhost:3001/presets`, {
+                    preset_category_id:this.selectedCategory.id,
+                    title:this.newPresetName,
+                })
+                .then(response =>{
+                    if(response.data.status){
+
+                        let id = 'new'
+                        this.$store.dispatch('editor/setloadedPreset',{id});
+                        this.newPreset_dialog = false
+                        this.$store.dispatch('rect/clearState');
+                        
+                        var n= {
+                            id:response.data.data.id,
+                            title:response.data.data.title
+                        }
+                        console.log(response.data.data)
+                        this.items[this.selectedCategory.id].items.push(n)
+                        this.selectedCategory = null
+                        this.newPresetName = null
+                        this.snackbartext = response.data.text
+                        this.snackbar = true;
+                    }
+              
+
+                })
+               
+                .catch(e => {
+                    this.errors.push(e)
+                })
+
+
+
 
         },
         takeSelectedImage(index){

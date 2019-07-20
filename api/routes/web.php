@@ -15,8 +15,10 @@ $router->get('/', function () use ($router) {
    echo 'asdasd';
 });
 
-$router->get('/presets', function () use ($router) {
 
+$router->post('/presets', 'ExampleController@addPreset');
+
+$router->get('/presets', function () use ($router) {
     function getPresets($preset_category_id){
         $return_data = [];
         $results = app('db')->select("SELECT * FROM presets WHERE preset_category_id = $preset_category_id");
